@@ -92,12 +92,6 @@ public class MainSpace
         int basicHP = status.basicHP;
         int basicGold = status.basicGold;
 
-       
-        
-        int nowHP = status.HP;             //nowHP는 HP라는 Status의 클래스 내부 변수에서 가져온다. 현재체력
-        int nowGold = status.Gold;         //nowGold는 Gold라는 Status의클래스 내부 변수에서 가져온다. 현재보유골드.
-
-
         Console.Clear();
         Console.WriteLine(" 캐릭터의 정보가 표시됩니다.\n\n\n");
         Console.WriteLine("공격력 : " + basicstr + " (+ " + status.nowEquipSTR + ")");     // 기본 공력력10 (+장비 공격력)
