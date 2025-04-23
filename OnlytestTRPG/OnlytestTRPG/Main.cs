@@ -52,8 +52,8 @@ public class MainSpace                        //♥♥♥원래는 program이엇
                     inven.InventoryUI();
                     break;
                 case "3":
-                    HealItem();
-                    return;
+                    healItem.Heal();
+                    break;
                 case "4":
                     BattleScene();
                     return;
@@ -69,7 +69,7 @@ public class MainSpace                        //♥♥♥원래는 program이엇
         }
     }
 
-
+    public static HealItem healItem = new HealItem();
     public static Inventory inven = new Inventory(); //Inventory의 클래스를 가져와서 inven이라는 새로운 인스턴스 생성한다.
     public static Status status = new Status();      //Status의 클래스를 가져와서 status라는 새로운 인스턴스를 생성한다.
     static void StatusScene()
@@ -85,7 +85,7 @@ public class MainSpace                        //♥♥♥원래는 program이엇
         //int weaponSTR  ;//nowEquipSTR; //weaponSTR은 nowEquipSTR라는 Inventory의클래스 내부 변수에서 가져온다.현재 장착한 무기
         //int weaponDEF ; //weaponDEF은 nowEquipDEF라는 Inventory의클래스 내부 변수에서 가져온다.현재 장착한 방어구
 
-        
+
         int nowHP = status.HP;             //nowHP는 HP라는 Status의 클래스 내부 변수에서 가져온다. 현재체력
         int nowGold = status.Gold;         //nowGold는 Gold라는 Status의클래스 내부 변수에서 가져온다. 현재보유골드.
 
@@ -129,18 +129,10 @@ public class MainSpace                        //♥♥♥원래는 program이엇
             Console.WriteLine("잘못된 입력입니다");
         }
     }
-        static void InventoryScene()
+    static void InventoryScene()
     {
         Console.Clear();
         Console.WriteLine("인벤토리화면입니다. \n아무 키누르면 프로그램 종료");
-
-        Console.ReadKey();
-    }
-
-    static void HealItem()
-    {
-        Console.Clear();
-        Console.WriteLine("회복 아이템 화면입니다. \n아무 키누르면 프로그램 종료");
 
         Console.ReadKey();
     }
