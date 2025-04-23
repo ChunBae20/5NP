@@ -8,23 +8,23 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\nearl\\.nuget\\packages\\": {},
+    "C:\\Users\\jkim7\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nearl\\source\\repos\\ConsoleApp1\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+      "projectUniqueName": "E:\\GitHub\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
       "projectName": "OnlytestTRPG",
-      "projectPath": "C:\\Users\\nearl\\source\\repos\\ConsoleApp1\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
-      "packagesPath": "C:\\Users\\nearl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nearl\\source\\repos\\ConsoleApp1\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
+      "projectPath": "E:\\GitHub\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+      "packagesPath": "C:\\Users\\jkim7\\.nuget\\packages\\",
+      "outputPath": "E:\\GitHub\\5NP\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\nearl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jkim7\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -33,6 +33,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -51,7 +52,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -67,30 +68,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.12, 8.0.12]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.12, 8.0.12]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.12, 8.0.12]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.12, 8.0.12]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
