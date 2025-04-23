@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using This_is_Sparta__;
 using OnlytestTRPG; //나만 추가
 
-
+namespace OnlytestTRPG
+{
 // 자식 : 부모 힐아이템 인벤토리 다수정
 public class MainSpace                        //♥♥♥원래는 program이엇던것♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
 {
@@ -14,7 +14,6 @@ public class MainSpace                        //♥♥♥원래는 program이엇
 
 
         MainMenu();                       //♥♥♥원래는StartScene()♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
-
 
 
     }
@@ -168,5 +167,6 @@ public class MainSpace                        //♥♥♥원래는 program이엇
 
 
 
+        }
     }
 }

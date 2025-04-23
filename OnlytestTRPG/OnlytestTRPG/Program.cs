@@ -2,7 +2,7 @@
 using System.Numerics;
 using System.Threading.Tasks.Dataflow;
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
     
     
@@ -87,26 +87,26 @@ namespace This_is_Sparta__
             }
         }
 
-        static void SetData()
-        {
-            player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
-            itemDb = new Item[]
-            {
-                new Item(names:"수련자의 갑옷",type:1,value:5, desc:"수련에 도움을 주는 갑옷입니다.", price:1000),
-                new Item(names:"무쇠 갑옷",type:1,value:9, desc:"무쇠로 만들어져 튼튼한 갑옷입니다..", price:2000),
-                new Item(names:"스파르타의 갑옷",type:1,value:15, desc:"수련에 도움을 주는 갑옷입니다.", price:3500),
-                new Item(names:"낡은 검",type:0,value:2, desc:"쉽게 볼 수 있는 낡은 검입니다.", price:600),
-                new Item(names:"청동 도끼",type:0,value:5, desc:"어디선가 사용됐던거 같은 도끼입니다.", price:1500),
-                new Item(names:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
+        //static void SetData()
+        //{
+        //    player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
+        //    itemDb = new Item[]
+        //    {
+        //        new Item(name:"수련자의 갑옷",type:1,value:5, desc:"수련에 도움을 주는 갑옷입니다.", price:1000),
+        //        new Item(name:"무쇠 갑옷",type:1,value:9, desc:"무쇠로 만들어져 튼튼한 갑옷입니다..", price:2000),
+        //        new Item(name:"스파르타의 갑옷",type:1,value:15, desc:"수련에 도움을 주는 갑옷입니다.", price:3500),
+        //        new Item(name:"낡은 검",type:0,value:2, desc:"쉽게 볼 수 있는 낡은 검입니다.", price:600),
+        //        new Item(name:"청동 도끼",type:0,value:5, desc:"어디선가 사용됐던거 같은 도끼입니다.", price:1500),
+        //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
 
-            };
-            enemyDb = new Enemy[]
-            {
-                new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
-                new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
-                new Enemy(name:"대포미니언", level:5, atk: 8, maxHp:25)
-            };
-        }
+        //    };
+        //    enemyDb = new Enemy[]
+        //    {
+        //        new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
+        //        new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
+        //        new Enemy(name:"대포미니언", level:5, atk: 8, maxHp:25)
+        //    };
+        //}
         static List<Enemy> currentEnemies = new List<Enemy>();
         static void EnemyGenerate()
         {
@@ -152,14 +152,33 @@ namespace This_is_Sparta__
         }
 
 
-        static int CalculateDamage(int baseAtk)
+        static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
         {
             int errorRange = (int)Math.Ceiling(baseAtk * 0.1);
             int min = baseAtk - errorRange;
             int max = baseAtk + errorRange;
+            int rawDamage = random.Next(min, max + 1) - baseDef;
 
-            return random.Next(min, max+1);
+            int avoidPercent = random.Next(0, 100);
+            if (avoidPercent < baseAvd)
+            {
+                Console.WriteLine("공격을 회피하였습니다.");
+                return 0;
 
+            }
+            bool isCritical = false;
+            int criticalPercent = random.Next(0, 100);
+            if (criticalPercent < baseCrt)
+            {
+                rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
+                isCritical = true;
+            }
+            int finalDamage = rawDamage - baseDef;
+            if (finalDamage < 1)
+            {
+                finalDamage = 1;
+            }
+            return finalDamage;
         }
 
 
@@ -199,12 +218,12 @@ namespace This_is_Sparta__
 
 
 
-        static void Main(string[] args)
+        static void BattleScene()
             {
-            SetData();    
+
+            //SetData();    
             DisplayBattleScene ();
                 
-
             } 
         }
     }

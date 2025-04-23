@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OnlytestTRPG; //나만 추가
 
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
 
     internal class Item 
