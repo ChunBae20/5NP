@@ -10,19 +10,20 @@ namespace This_is_Sparta__
     // ------------------------------------------------------------------
     // 화면(Scene)·전투 결과 Enum                                          
     // ------------------------------------------------------------------
-    enum GameScene    { Start, Battle }
+    enum GameScene { Start, Battle }
     enum BattleResult { Victory, Defeat }
+    enum ResultChoice { GoStart, GoNextStage }
 
     // ------------------------------------------------------------------
     // Player – 모든 캐릭터 상태를 한데 관리                               
     // ------------------------------------------------------------------
     class Player
     {
-        public int    Level       { get; set; } = 1;
-        public string Name        { get; set; } = "Chad";
-        public int    MaxHp       { get; } = 100;
-        public int    CurrentHp   { get; private set; }
-        public Dictionary<string,int> Inventory { get; } = new();
+        public int Level { get; set; } = 1;
+        public string Name { get; set; } = "Chad";
+        public int MaxHp { get; } = 100;
+        public int CurrentHp { get; private set; }
+        public Dictionary<string, int> Inventory { get; } = new();
 
         public Player() => CurrentHp = MaxHp;
 
@@ -48,22 +49,22 @@ namespace This_is_Sparta__
     public class Reward
     {
         public string Name;
-        public int    Amount;
-        public Reward(string name,int amount)
+        public int Amount;
+        public Reward(string name, int amount)
         {
-            Name   = name;
+            Name = name;
             Amount = amount;
         }
     }
 
     public class MonsterReward
     {
-        public string    MonsterType;
+        public string MonsterType;
         public Func<Reward> GetReward;
-        public MonsterReward(string type,Func<Reward> rewardFunc)
+        public MonsterReward(string type, Func<Reward> rewardFunc)
         {
             MonsterType = type;
-            GetReward   = rewardFunc;
+            GetReward = rewardFunc;
         }
     }
 
@@ -75,7 +76,7 @@ namespace This_is_Sparta__
         // --------------------------------------------------------------
         // 몬스터 드롭 테이블                                            
         // --------------------------------------------------------------
-        static readonly Dictionary<string,List<Reward>> dropTable = new()
+        static readonly Dictionary<string, List<Reward>> dropTable = new()
         {
             { "미니언"    , new(){ new("Gold",  50) } },
             { "공허충"    , new(){ new("Gold", 150) } },
@@ -87,9 +88,9 @@ namespace This_is_Sparta__
         // --------------------------------------------------------------
         static void Main()
         {
-            var       player      = new Player();
+            var player = new Player();
             GameScene currentScene = GameScene.Start;
-            int       stageNumber  = 1;
+            int stageNumber = 1;
 
             while (true)
             {
@@ -103,16 +104,18 @@ namespace This_is_Sparta__
                         break;
 
                     case GameScene.Battle:
-                        var battleResult = Battle(player, stageNumber);
-                        if (battleResult == BattleResult.Victory)
+                        ResultChoice afterResult;
+                        var battleResult = Battle(player, stageNumber, out afterResult);
+
+                        if (afterResult == ResultChoice.GoNextStage)
                         {
-                            stageNumber++;                       // 다음 스테이지
-                            currentScene = GameScene.Battle;     // 연속 전투
+                            stageNumber++;
+                            currentScene = GameScene.Battle;    // 연속 전투
                         }
-                        else
+                        else    // ResultChoice.GoStart
                         {
-                            player.HealFull();                   // 패배 → HP 회복
-                            currentScene = GameScene.Start;      // 타이틀로 이동
+                            player.HealFull();
+                            currentScene = GameScene.Start;     // 타이틀로
                         }
                         break;
                 }
@@ -122,42 +125,44 @@ namespace This_is_Sparta__
         // --------------------------------------------------------------
         // Battle – 데모용 전투 로직                                     
         // --------------------------------------------------------------
-        static BattleResult Battle(Player player,int stageNumber)
+        static BattleResult Battle(Player player, int stageNumber, out ResultChoice postChoice)
         {
-            Random rng     = new();
-            int    damage  = rng.Next(10,40);
+            Random rng = new();
+            int damage = rng.Next(10, 40);
             player.TakeDamage(damage);
 
-            var defeatedTypes = new List<string>{ "미니언", "공허충", "대포미니언" };
-            var rewardList    = CollectAllRewards(defeatedTypes);
+            var defeatedTypes = new List<string> { "미니언", "공허충", "대포미니언" };
+            var rewardList = CollectAllRewards(defeatedTypes);
 
             bool victory = player.CurrentHp > 0;
             if (victory)
                 player.AddRewards(rewardList);
 
-            ShowResult(player, defeatedTypes.Count, damage, rewardList,
-                       victory ? BattleResult.Victory : BattleResult.Defeat);
+            postChoice = ShowResult(player, defeatedTypes.Count, damage, rewardList,
+                             victory ? BattleResult.Victory : BattleResult.Defeat);
+
+
             return victory ? BattleResult.Victory : BattleResult.Defeat;
         }
 
         // --------------------------------------------------------------
         // 결과 화면                                                     
         // --------------------------------------------------------------
-        static void ShowResult(Player player,int killCount,int damageTaken,
-                               List<Reward> rewardList,BattleResult result)
+        static ResultChoice ShowResult(Player player, int killCount, int damageTaken,
+                               List<Reward> rewardList, BattleResult result)
         {
             Console.Clear();
             Console.WriteLine("Battle - Result\n");
-            Console.WriteLine((result==BattleResult.Victory?"Victory":"You Lose") + "\n");
+            Console.WriteLine((result == BattleResult.Victory ? "Victory" : "You Lose") + "\n");
 
-            if (result==BattleResult.Victory)
+            if (result == BattleResult.Victory)
                 Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n");
 
             Console.WriteLine("[캐릭터]");
             Console.WriteLine($"HP {player.MaxHp} -> {player.CurrentHp}  (-{damageTaken})\n");
 
             Console.WriteLine("[획득 보상]");
-            if (result==BattleResult.Victory)
+            if (result == BattleResult.Victory)
             {
                 foreach (var reward in rewardList)
                     Console.WriteLine($"{reward.Name} +{reward.Amount}");
@@ -165,21 +170,35 @@ namespace This_is_Sparta__
             else
                 Console.WriteLine("없음");
             Console.WriteLine();
-
-            Console.WriteLine("0. 다음");
-            ReadMenuChoice(0,0);   // 아무 키 대기
+            // ─────────────────────────────────────────────
+            // 선택지 출력 (승리/패배에 따라 다르게)
+            // ─────────────────────────────────────────────
+            if (result == BattleResult.Victory)
+            {
+                Console.WriteLine("1. 다음 스테이지로");
+                Console.WriteLine("0. 시작 화면으로");
+                int choice = ReadMenuChoice(0, 1);
+                return (choice == 1) ? ResultChoice.GoNextStage : ResultChoice.GoStart;
+            }
+            else
+            {
+                Console.WriteLine("0. 시작 화면으로");
+                ReadMenuChoice(0, 0);           // 아무 키 대기
+                return ResultChoice.GoStart;
+            }
         }
+        
 
         // --------------------------------------------------------------
         // 드롭 리스트 합산                                               
         // --------------------------------------------------------------
         static List<Reward> CollectAllRewards(IEnumerable<string> defeatedTypes)
         {
-            var totals = new Dictionary<string,int>();
+            var totals = new Dictionary<string, int>();
 
             foreach (var monsterType in defeatedTypes)
             {
-                if (!dropTable.TryGetValue(monsterType,out var dropList))
+                if (!dropTable.TryGetValue(monsterType, out var dropList))
                     continue;
 
                 foreach (var reward in dropList)
@@ -192,7 +211,7 @@ namespace This_is_Sparta__
 
             var mergedRewards = new List<Reward>();
             foreach (var itemEntry in totals)
-                mergedRewards.Add(new Reward(itemEntry.Key,itemEntry.Value));
+                mergedRewards.Add(new Reward(itemEntry.Key, itemEntry.Value));
 
             return mergedRewards;
         }
@@ -200,13 +219,13 @@ namespace This_is_Sparta__
         // --------------------------------------------------------------
         // 메뉴 입력 유틸                                               
         // --------------------------------------------------------------
-        static int ReadMenuChoice(int min,int max)
+        static int ReadMenuChoice(int min, int max)
         {
             int choice;
             while (true)
             {
                 string rawInput = Console.ReadLine()?.Trim() ?? string.Empty;
-                if (int.TryParse(rawInput,out choice) && choice>=min && choice<=max)
+                if (int.TryParse(rawInput, out choice) && choice >= min && choice <= max)
                     return choice;
                 Console.WriteLine("잘못된 입력입니다.");
             }
