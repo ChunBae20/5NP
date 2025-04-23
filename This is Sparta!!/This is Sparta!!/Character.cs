@@ -16,7 +16,8 @@ namespace This_is_Sparta__
         public int MaxHp { get; }
         public int CurrentHp { get;  set; }
         public int Gold { get; set; }
-
+        public int Crt { get; set; }
+        public int AVD { get; set; }
         public int ExtraAtk { get; private set; }
         public int ExtraDef { get; private set; }
 

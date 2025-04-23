@@ -202,11 +202,10 @@ namespace This_is_Sparta__
         static void Main(string[] args)
             {
             SetData();    
-            DisplayBattleScene();
+            DisplayBattleScene ();
+                
 
-
-            
-            }
+            } 
         }
     }
 
