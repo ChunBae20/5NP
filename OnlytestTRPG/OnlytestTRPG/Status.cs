@@ -17,14 +17,15 @@ namespace OnlytestTRPG
         public int nowEquipCRT;     //float으로 해야하나? 치명타 .퍼센트?
         public int nowEquipAVD;    //회피율
         public int nowEquipHP;
-
-
-        
+        public int basicAVD = 10;
+        public int level = 1;
+        public string job = "전사";
+        public int basicCRT = 10;
         public int basicSTR = 5;             //기본 공격력
         public int basicDEF = 3;             //기본 방어력
         public int basicHP = 100;            //기본 체력
         public int basicGold = 1500;         //기본 소지금
-        public int CurrentHP;
+        public int CurrentHP = 100;
     }
 
 }

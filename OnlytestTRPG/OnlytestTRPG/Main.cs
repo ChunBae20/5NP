@@ -11,10 +11,10 @@ public class MainSpace
 
     static void Main(string[] args)
     {
-
-
-        MainMenu();                       
-
+            
+            Character.ShowIntro();
+            MainMenu();
+            
 
     }
 
@@ -62,7 +62,8 @@ public class MainSpace
                     store.EnterStore();
                     break;
                 case "6":
-                    BattleScene();
+                        battle.SetData();
+                        battle.DisplayBattleScene();
                     return;
                 case "team5NP":
                     TeamMembers();
@@ -75,7 +76,7 @@ public class MainSpace
             }
         }
     }
-
+    public static BattleScene battle = new BattleScene();
     public static Store store = new Store();
     public static Quest quest = new Quest();
     public static HealItem healItem = new HealItem(3);
@@ -93,8 +94,8 @@ public class MainSpace
 
        
         
-        int nowHP = status.HP;             //nowHP는 HP라는 Status의 클래스 내부 변수에서 가져온다. 현재체력
-        int nowGold = status.Gold;         //nowGold는 Gold라는 Status의클래스 내부 변수에서 가져온다. 현재보유골드.
+        int nowHP = status.CurrentHP;             //nowHP는 HP라는 Status의 클래스 내부 변수에서 가져온다. 현재체력
+        int nowGold = status.basicGold;         //nowGold는 Gold라는 Status의클래스 내부 변수에서 가져온다. 현재보유골드.
 
 
         Console.Clear();

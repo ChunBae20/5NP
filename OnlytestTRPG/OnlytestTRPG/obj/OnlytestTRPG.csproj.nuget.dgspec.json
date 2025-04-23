@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JM\\Desktop\\UnityGit\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {}
+    "C:\\Users\\JM\\Desktop\\UnityGit\\5NP_real\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JM\\Desktop\\UnityGit\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {
+    "C:\\Users\\JM\\Desktop\\UnityGit\\5NP_real\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+        "projectUniqueName": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP_real\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
         "projectName": "OnlytestTRPG",
-        "projectPath": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+        "projectPath": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP_real\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
         "packagesPath": "C:\\Users\\JM\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
+        "outputPath": "C:\\Users\\JM\\Desktop\\UnityGit\\5NP_real\\5NP\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

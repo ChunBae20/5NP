@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
     public class QuestInfo
     {

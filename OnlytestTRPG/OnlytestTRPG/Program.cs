@@ -6,7 +6,7 @@ namespace OnlytestTRPG
 {
     
     
-    internal class Program
+    public class BattleScene : MainSpace
     {
         private static Character player;
         private static Item[] itemDb;
@@ -17,7 +17,7 @@ namespace OnlytestTRPG
         //[내정보]
         //1. 공격
         //외에는 잘못된 입력
-        static void DisplayBattleScene()
+        public void DisplayBattleScene()
         {
 
             EnemyGenerate();
@@ -38,7 +38,7 @@ namespace OnlytestTRPG
             }
         }
 
-        static void JoinBattleScene()
+        public static void JoinBattleScene()
         {
             Console.Clear();
             Console.WriteLine();
@@ -61,7 +61,7 @@ namespace OnlytestTRPG
                     }
                     else
                     {
-                        int damage = CalculateDamage(player.Atk);
+                        int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
                         Console.WriteLine($"{targetEnemy.Name}에게 {damage}의 피해를 입혔습니다.");
 
                         if (damage >= targetEnemy.CurrentHp)
@@ -77,7 +77,7 @@ namespace OnlytestTRPG
                         }
                     }
                     EnemyAttackPhase();
-                    if (player.CurrentHp > 0)
+                    if (status.CurrentHP > 0)
                     {
                         Console.WriteLine();
                         JoinBattleScene();
@@ -87,8 +87,8 @@ namespace OnlytestTRPG
             }
         }
 
-        //static void SetData()
-        //{
+        public void SetData()
+        {
         //    player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
         //    itemDb = new Item[]
         //    {
@@ -100,14 +100,14 @@ namespace OnlytestTRPG
         //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
 
         //    };
-        //    enemyDb = new Enemy[]
-        //    {
-        //        new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
-        //        new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
-        //        new Enemy(name:"대포미니언", level:5, atk: 8, maxHp:25)
-        //    };
-        //}
-        static List<Enemy> currentEnemies = new List<Enemy>();
+            enemyDb = new Enemy[]
+            {
+                new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
+                new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
+                new Enemy(name:"대포미니언", level:5, atk: 8, maxHp:25)
+            };
+    }
+    static List<Enemy> currentEnemies = new List<Enemy>();
         static void EnemyGenerate()
         {
             int enemyCount = random.Next(1, 5); //1~4마리
@@ -172,6 +172,7 @@ namespace OnlytestTRPG
             {
                 rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
                 isCritical = true;
+                Console.WriteLine("크리티컬!");
             }
             int finalDamage = rawDamage - baseDef;
             if (finalDamage < 1)
@@ -191,15 +192,15 @@ namespace OnlytestTRPG
                 Console.WriteLine($"{enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
                 int wait = CheckInput(0,0);
-                int enemyDamage = CalculateDamage(enemy.Atk);
-                Console.WriteLine($"{enemy.Name}이(가) {player.Name}에게 {enemyDamage}의 피해를 입힘");
+                int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
+                Console.WriteLine($"{enemy.Name}이(가) {player}에게 {enemyDamage}의 피해를 입힘");
 
-                player.CurrentHp -= enemyDamage;
+                status.CurrentHP -= enemyDamage;
 
-                if (player.CurrentHp <= 0)
+                if (status.CurrentHP <= 0)
                 {
-                    player.CurrentHp = 0;
-                    Console.WriteLine($"{player.Name}이(가) 쓰러졌습니다.");
+                    status.CurrentHP = 0;
+                    Console.WriteLine($"{player}이(가) 쓰러졌습니다.");
                     Console.WriteLine("GameOver");
                     return;
 
@@ -212,19 +213,13 @@ namespace OnlytestTRPG
         static void BattleCharacterInfo()
         {
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{player.Level} {player.Name}({player.Job})");
-            Console.WriteLine($"HP {player.CurrentHp}/{player.MaxHp}");
+            Console.WriteLine($"Lv.{status.level} {player}({status.job})");
+            Console.WriteLine($"HP {status.CurrentHP}/100");
         }
 
 
 
-        static void BattleScene()
-            {
-
-            //SetData();    
-            DisplayBattleScene ();
-                
-            } 
+        
         }
     }
 
