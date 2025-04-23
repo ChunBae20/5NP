@@ -8,7 +8,13 @@ namespace This_is_Sparta__
 {
     public class HealItem : MainSpace
     {
-        public int potion = 3;
+        public static int potion;
+
+        public HealItem(int potion)
+        {
+            HealItem.potion = potion;
+        }
+        public int TotalHP => status.basicHP + status.nowEquipHP;
 
         public void Heal()
         {
@@ -28,8 +34,7 @@ namespace This_is_Sparta__
                 if (num == 1 && potion > 0)
                 {
                     potion -= 1;
-                    //캐릭터HP +30 회복
-                    //CurrentHP =Math.Min(CurrentHP + 30, BasicHP);
+                    status.CurrentHP = Math.Min(status.CurrentHP + 30, TotalHP);
                     Console.WriteLine("\n회복을 완료했습니다.");
                 }
                 else Console.WriteLine("\n포션이 부족합니다.");
