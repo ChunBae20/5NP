@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using This_is_Sparta__;
 using OnlytestTRPG; //나만 추가
 
-
+namespace OnlytestTRPG
+{
 // 자식 : 부모 힐아이템 인벤토리 다수정
 public class MainSpace                        
 {
@@ -11,11 +11,10 @@ public class MainSpace
 
     static void Main(string[] args)
     {
-
-
-        MainMenu();                       
-
-
+            
+            Character.ShowIntro();
+            MainMenu();
+            
 
     }
 
@@ -63,7 +62,8 @@ public class MainSpace
                     store.EnterStore();
                     break;
                 case "6":
-                    BattleScene();
+                        battle.SetData();
+                        battle.DisplayBattleScene();
                     return;
                 case "team5NP":
                     TeamMembers();
@@ -76,7 +76,7 @@ public class MainSpace
             }
         }
     }
-
+    public static BattleScene battle = new BattleScene();
     public static Store store = new Store();
     public static Quest quest = new Quest();
     public static HealItem healItem = new HealItem(3);
@@ -156,5 +156,6 @@ public class MainSpace
 
 
 
+        }
     }
 }

@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
     enum JobType                                               
     {

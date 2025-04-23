@@ -8,7 +8,7 @@ using System.Xml.Linq;
 using OnlytestTRPG; //나만 추가
 
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
 
     internal class Equipment
