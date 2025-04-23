@@ -9,13 +9,14 @@ using OnlytestTRPG; //나만 추가
 
 namespace OnlytestTRPG
 {
-    public  class Status
+    public class Status
     {
 
         public int nowEquipSTR;
         public int nowEquipDEF;
         public int nowEquipCRT;     //float으로 해야하나? 치명타 .퍼센트?
         public int nowEquipAVD;    //회피율
+        public int nowEquipHP;
 
 
         
@@ -23,11 +24,7 @@ namespace OnlytestTRPG
         public int basicDEF = 3;             //기본 방어력
         public int basicHP = 100;            //기본 체력
         public int basicGold = 1500;         //기본 소지금
-
-
-        public int HP = 100;
-        public int Gold = 1500;
-        
+        public int CurrentHP;
     }
 
 }
