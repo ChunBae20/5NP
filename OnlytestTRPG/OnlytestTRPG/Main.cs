@@ -5,7 +5,7 @@ using OnlytestTRPG; //나만 추가
 
 
 // 자식 : 부모 힐아이템 인벤토리 다수정
-public class MainSpace                        //♥♥♥원래는 program이엇던것♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+public class MainSpace                        
 {
 
 
@@ -13,13 +13,13 @@ public class MainSpace                        //♥♥♥원래는 program이엇
     {
 
 
-        MainMenu();                       //♥♥♥원래는StartScene()♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+        MainMenu();                       
 
 
 
     }
 
-    public static void MainMenu()                 //♥♥♥원래는 public static void StartScene()♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+    public static void MainMenu()                 
     {
 
 
@@ -82,6 +82,7 @@ public class MainSpace                        //♥♥♥원래는 program이엇
     public static HealItem healItem = new HealItem(3);
     public static Inventory inven = new Inventory(); //Inventory의 클래스를 가져와서 inven이라는 새로운 인스턴스 생성한다.
     public static Status status = new Status();      //Status의 클래스를 가져와서 status라는 새로운 인스턴스를 생성한다.
+
     static void StatusScene()
     {
 
@@ -91,9 +92,11 @@ public class MainSpace                        //♥♥♥원래는 program이엇
         int basicHP = status.basicHP;
         int basicGold = status.basicGold;
 
-        //추가부
-        //int weaponSTR  ;//nowEquipSTR; //weaponSTR은 nowEquipSTR라는 Inventory의클래스 내부 변수에서 가져온다.현재 장착한 무기
-        //int weaponDEF ; //weaponDEF은 nowEquipDEF라는 Inventory의클래스 내부 변수에서 가져온다.현재 장착한 방어구
+       
+        
+        int nowHP = status.HP;             //nowHP는 HP라는 Status의 클래스 내부 변수에서 가져온다. 현재체력
+        int nowGold = status.Gold;         //nowGold는 Gold라는 Status의클래스 내부 변수에서 가져온다. 현재보유골드.
+
 
         Console.Clear();
         Console.WriteLine(" 캐릭터의 정보가 표시됩니다.\n\n\n");
@@ -110,7 +113,7 @@ public class MainSpace                        //♥♥♥원래는 program이엇
         string gotoexit = Console.ReadLine();
         if (gotoexit == gotoStartScene)
         {
-            MainMenu();                          ///♥♥♥♥♥♥♥♥♥♥♥♥원래는 StartScene();엿던것♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥♥
+            MainMenu();                         
         }
         else
         {
@@ -121,7 +124,7 @@ public class MainSpace                        //♥♥♥원래는 program이엇
         Console.WriteLine("상태보기 입니다. \n아무 키나 누르면 돌아갑니다.");
         Console.ReadKey();
     }
-    public int Input(int min, int max)   //♥♥♥♥♥♥♥♥♥♥♥♥ 인벤토리에서 Input값을 못불러옴 그래서 static 썼음 //스태틱빼자
+    public int Input(int min, int max)   
     {
         while (true)
         {
@@ -148,10 +151,10 @@ public class MainSpace                        //♥♥♥원래는 program이엇
 
         Console.Clear();
 
-        Console.WriteLine(" 테크니컬 리더 김지수님 감사합니다. ");
-        Console.WriteLine(" 민종곤님 감사합니다. ");
-        Console.WriteLine(" 최용선님 감사합니다.");
-        Console.WriteLine(" 윤지민님 감사합니다.");
+        Console.WriteLine(" 테크니컬 리더 님 감사합니다. ");
+        Console.WriteLine(" 님 감사합니다. ");
+        Console.WriteLine(" 님 감사합니다.");
+        Console.WriteLine(" 님 감사합니다.");
         Console.WriteLine("  ");
 
         Console.WriteLine(" 1조의 팀원들입니다. \n아무 키누르면 프로그램 종료");

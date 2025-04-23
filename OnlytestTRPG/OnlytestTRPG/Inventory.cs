@@ -59,7 +59,7 @@ namespace This_is_Sparta__
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">> ");
 
-            int num = Input(0, 1);   //int num = MainSpace.Input(0, 1);  //♥♥♥♥♥♥♥♥♥♥♥여기도 MainSpace.으로 바꿀게요 ♥♥♥♥♥♥
+            int num = Input(0, 1);   //int num = MainSpace.Input(0, 1);  
 
             switch (num)
             {
