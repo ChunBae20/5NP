@@ -36,15 +36,17 @@ namespace OnlytestTRPG
     {
         public void QuestWorking(string questProcess)
         {
-            Quest questSystem = new Quest();
-            QuestInfo activeQuest = GetCurrentAcceptedQuest(questSystem, questProcess);
-            questSystem.UpdateQuestProcess(questProcess, activeQuest);
+            QuestInfo activeQuest = GetCurrentAcceptedQuest(questProcess);
+            if (activeQuest != null)
+            {
+                Quest questSystem = new Quest();
+                questSystem.UpdateQuestProcess(questProcess, activeQuest);
+            }
         }
 
-        public QuestInfo GetCurrentAcceptedQuest(Quest questSystem, string questProcess)
+        public QuestInfo GetCurrentAcceptedQuest(string questProcess)
         {
-           return questSystem.questList.FirstOrDefault(q => q.IsSelected && !q.IsFinished && q.QuestProcess == questProcess);
-
+           return Quest.questList.FirstOrDefault(q => q.IsSelected && !q.IsFinished && q.QuestProcess == questProcess);
         }
 
         static List<Item> itemList = new List<Item>()
