@@ -34,6 +34,19 @@ namespace OnlytestTRPG
     }
     public class Store : MainSpace
     {
+        public void QuestWorking(string questProcess)
+        {
+            Quest questSystem = new Quest();
+            QuestInfo activeQuest = GetCurrentAcceptedQuest(questSystem, questProcess);
+            questSystem.UpdateQuestProcess(questProcess, activeQuest);
+        }
+
+        public QuestInfo GetCurrentAcceptedQuest(Quest questSystem, string questProcess)
+        {
+           return questSystem.questList.FirstOrDefault(q => q.IsSelected && !q.IsFinished && q.QuestProcess == questProcess);
+
+        }
+
         static List<Item> itemList = new List<Item>()
         {
             new("낡은 검", "공격력", 2, 500),
@@ -104,6 +117,7 @@ namespace OnlytestTRPG
                 Inventory.equipment.Add(new Equipment(selectedItem.ItemName, selectedItem.ItemType, selectedItem.ItemStat, selectedItem.Price));
 
                 Console.WriteLine($"{selectedItem.ItemName}을 구매하셨습니다. (잔액: {status.basicGold}G)");
+                QuestWorking("아이템 구매");
             }
             else if (status.basicGold >= selectedItem.Price && selectedItem.IsBuy == true) Console.WriteLine("이미 구매하셨습니다.");
             else Console.WriteLine("Gold가 부족합니다.");

@@ -15,9 +15,11 @@ namespace OnlytestTRPG
         public int QuestProgress;
         public int QuestGoal;
         public string[] QuestReward;
+        public string QuestProcess;
         public bool IsFinished = false;
+        public bool IsSelected = false;
 
-        public QuestInfo(string questName, string questDescription, string questRequest, int questProgress, int questGoal, string[] questReward)
+        public QuestInfo(string questName, string questDescription, string questRequest, int questProgress, int questGoal, string[] questReward, string questProcess)
         {
             QuestName = questName;
             QuestDescription = questDescription;
@@ -25,19 +27,22 @@ namespace OnlytestTRPG
             QuestProgress = questProgress;
             QuestGoal = questGoal;
             QuestReward = questReward;
-
+            QuestProcess = questProcess;
         }
     }
 
     public class Quest : MainSpace
     {
-        static List<QuestInfo> questList = new List<QuestInfo>()
+        public List<QuestInfo> questList = new List<QuestInfo>()
         {
             new QuestInfo("마을을 위협하는 미니언 처치",
                 "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\r\n마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\r\n모험가인 자네가 좀 처치해주게!",
                 "미니언 5마리 처치",
-                0, 
-                5, new string[] { "5G" })
+                0,
+                5, new string[] { "5G" },
+                "미니언")
+
+
         };
 
         public void QuestOption()
@@ -75,31 +80,38 @@ namespace OnlytestTRPG
 
             int num = Input(1, 2);
 
-            switch (num)
+            if (selectQuest.IsSelected = false && num = 1 )
             {
-                case 1: QuestAccept(selectQuest); break;
-                case 2: MainMenu(); break;
-            }
-        }
-
-        public void QuestAccept(QuestInfo selectQuest)
-        {
-            if (selectQuest.QuestProgress == selectQuest.QuestGoal)
-            {
-                selectQuest.IsFinished = true;
-                QuestSuccess(selectQuest);
-            }
-            else
-            {
+                selectQuest.IsSelected = true;
                 Console.WriteLine("\n퀘스트가 수락되었습니다!\n");
                 Thread.Sleep(1000);
                 MainMenu();
             }
+            else if(selectQuest.IsSelected = true)
+            {
+                Console.WriteLine("\n이미 퀘스트를 수락하셨습니다.\n");
+            }
+            else MainMenu();
+
         }
 
-        public void UpdateQuestProcess()
+        public void UpdateQuestProcess(string questProcess, QuestInfo selectQuest)
         {
+            foreach (var quest in questList)
+            {
+                if (!quest.IsFinished && quest.IsSelected && quest.QuestProcess == questProcess)
+                {
+                    quest.QuestProgress++;
 
+                    if (quest.QuestProgress >= quest.QuestGoal)
+                    {
+                        quest.QuestProgress = quest.QuestGoal;
+                        Console.WriteLine($"\n[퀘스트 완료] {quest.QuestName}");
+                        quest.IsFinished = true;
+                        QuestSuccess(selectQuest);
+                    }
+                }
+            }
         }
 
         public void QuestSuccess(QuestInfo selectQuest)
@@ -133,7 +145,7 @@ namespace OnlytestTRPG
 
             foreach (var reward in selectquest.QuestReward)
             {
-                if(reward.Contains("G"))
+                if (reward.Contains("G"))
                 {
                     string numberPart = new string(reward.Where(char.IsDigit).ToArray());
                     int goldAmount = int.Parse(numberPart);
