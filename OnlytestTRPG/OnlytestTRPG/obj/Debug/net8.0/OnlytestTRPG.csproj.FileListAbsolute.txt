@@ -57,3 +57,17 @@ C:\GIthubdeskTest\5NP\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\refint\Onlytest
 C:\GIthubdeskTest\5NP\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.pdb
 C:\GIthubdeskTest\5NP\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.genruntimeconfig.cache
 C:\GIthubdeskTest\5NP\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\ref\OnlytestTRPG.dll
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\bin\Debug\net8.0\OnlytestTRPG.exe
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\bin\Debug\net8.0\OnlytestTRPG.deps.json
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\bin\Debug\net8.0\OnlytestTRPG.runtimeconfig.json
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\bin\Debug\net8.0\OnlytestTRPG.dll
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\bin\Debug\net8.0\OnlytestTRPG.pdb
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.AssemblyInfoInputs.cache
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.AssemblyInfo.cs
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.csproj.CoreCompileInputs.cache
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.dll
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\refint\OnlytestTRPG.dll
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.pdb
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\OnlytestTRPG.genruntimeconfig.cache
+C:\Users\nearl\Desktop\최최최종\OnlytestTRPG\OnlytestTRPG\obj\Debug\net8.0\ref\OnlytestTRPG.dll

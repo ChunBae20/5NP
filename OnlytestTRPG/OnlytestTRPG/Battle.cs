@@ -9,9 +9,9 @@ namespace OnlytestTRPG
     public class BattleScene : MainSpace
     {
         
-        private static Character player;
-        private static Item[] itemDb;
-        private static Enemy[] enemyDb;
+        private static Character? player;
+        private static Item[]? itemDb;
+        private static Enemy[]? enemyDb;
         static Random random = new Random();
         //battle!
         //적 몬스터 출현 1~4마리 출현
@@ -110,7 +110,7 @@ namespace OnlytestTRPG
 
                     EnemyAttackPhase();
 
-                    if (status.CurrentHP > 0)
+                    if (Character.player.CurrentHP > 0)
                     {
                         Console.WriteLine();
                         JoinBattleScene();
@@ -133,7 +133,7 @@ namespace OnlytestTRPG
         //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
 
         //    };
-            enemyDb = new Enemy[]
+             enemyDb= new Enemy[]
             {
                 new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
                 new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
@@ -228,11 +228,11 @@ namespace OnlytestTRPG
                 int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
                 Console.WriteLine($"{enemy.Name}이(가) {player}에게 {enemyDamage}의 피해를 입힘");
 
-                status.CurrentHP -= enemyDamage;
+                Character.player.CurrentHP -= enemyDamage;
 
-                if (status.CurrentHP <= 0)
+                if (Character.player.CurrentHP <= 0)
                 {
-                    status.CurrentHP = 0;
+                    Character.player.CurrentHP = 0;
                     Console.WriteLine($"{player}이(가) 쓰러졌습니다.");
                     Console.WriteLine("GameOver");
                     return;
@@ -247,7 +247,8 @@ namespace OnlytestTRPG
         {
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{status.level} {player}({status.job})");
-            Console.WriteLine($"HP {status.CurrentHP}/100");
+            Console.Write($"HP {Character.player.CurrentHP}/" );//아 이거 이거였네 100고정이아니라 걍 
+            Console.WriteLine(Character.player.maxmaxHP);
         }
 
 
