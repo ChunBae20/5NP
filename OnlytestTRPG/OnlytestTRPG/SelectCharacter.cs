@@ -5,7 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace This_is_Sparta__
+namespace OnlytestTRPG
 {
     enum JobType                                               
     {
@@ -66,7 +66,7 @@ namespace This_is_Sparta__
 
             player.Level = 1;
             player.Gold = 100;
-            player.Inventory = new List<Item>();
+            player.Inventory = new List<Equipment>();
             player.EquippedItem = null;
 
             Console.WriteLine($"\n{player.Job} 직업의 {player.Name}님으로 게임을 시작합니다!");
@@ -82,8 +82,8 @@ namespace This_is_Sparta__
             public int HP;
             public int Gold;
 
-            public List<Item> Inventory = new List<Item>();    
-            public Item EquippedItem = null;
+            public List<Equipment> Inventory = new List<Equipment>();    
+            public Equipment EquippedItem = null;
 
         }
     }
