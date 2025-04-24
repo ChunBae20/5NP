@@ -14,7 +14,6 @@ namespace OnlytestTRPG
         {
             HealItem.potion = potion;
         }
-        public int TotalHP => status.basicHP + status.nowEquipHP;
 
         public void Heal()
         {
@@ -34,7 +33,7 @@ namespace OnlytestTRPG
                 if (num == 1 && potion > 0)
                 {
                     potion -= 1;
-                    status.CurrentHP = Math.Min(status.CurrentHP + 30, TotalHP);
+                    status.CurrentHP = Math.Min(status.CurrentHP + 30, status.TotalHP);
                     Console.WriteLine("\n회복을 완료했습니다.");
                 }
                 else Console.WriteLine("\n포션이 부족합니다.");

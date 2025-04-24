@@ -26,6 +26,7 @@ namespace OnlytestTRPG
         public int basicHP = 100;            //기본 체력
         public int basicGold = 1500;         //기본 소지금
         public int CurrentHP = 100;
+        public int TotalHP => basicHP + nowEquipHP;
     }
 
 }
