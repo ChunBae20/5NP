@@ -8,6 +8,7 @@ namespace OnlytestTRPG
     
     public class BattleScene : MainSpace
     {
+        
         private static Character player;
         private static Item[] itemDb;
         private static Enemy[] enemyDb;
@@ -40,6 +41,36 @@ namespace OnlytestTRPG
 
         public static void JoinBattleScene()
         {
+            bool allDead = true;
+            foreach (Enemy enemy in currentEnemies)
+            {
+                if (!enemy.IsDead)
+                {
+                    allDead = false;
+                    break;
+                }
+            }
+
+            if (allDead)
+            {
+                Console.WriteLine("모든 적을 처치했습니다!");
+
+                // 실제 죽은 몬스터 이름만 추출
+                List<string> defeated = new List<string>();
+                foreach (var enemy in currentEnemies)
+                {
+                    if (enemy.IsDead)
+                        defeated.Add(enemy.Name);
+                }
+
+                // 보상용 리워드 객체 생성
+                Reward reward = new Reward("Gold", 0);
+                OnlytestTRPG.Program program = new OnlytestTRPG.Program();
+                program.Battle(reward, defeated, out ResultChoice choice);
+
+                return;
+            }
+
             Console.Clear();
             Console.WriteLine();
             ShowEnemy(currentEnemies, true);
@@ -48,6 +79,7 @@ namespace OnlytestTRPG
             Console.WriteLine();
             Console.WriteLine("공격할 적을 입력해주세요");
             int result = CheckInput(1, currentEnemies.Count);
+
             switch (result)
             {
                 default:
@@ -57,7 +89,7 @@ namespace OnlytestTRPG
                     if (targetEnemy.IsDead)
                     {
                         Console.WriteLine("이미 죽어있는 적입니다.");
-                        JoinBattleScene();
+                        JoinBattleScene(); // 재귀로 다시 시도
                     }
                     else
                     {
@@ -69,22 +101,23 @@ namespace OnlytestTRPG
                             targetEnemy.CurrentHp = 0;
                             targetEnemy.IsDead = true;
                             Console.WriteLine($"{targetEnemy.Name}이(가) 죽었습니다.");
-                            
                         }
                         else
                         {
                             targetEnemy.CurrentHp -= damage;
                         }
                     }
+
                     EnemyAttackPhase();
+
                     if (status.CurrentHP > 0)
                     {
                         Console.WriteLine();
                         JoinBattleScene();
-                        
                     }
                     break;
             }
+
         }
 
         public void SetData()

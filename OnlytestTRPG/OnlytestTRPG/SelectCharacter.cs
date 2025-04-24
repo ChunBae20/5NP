@@ -77,9 +77,9 @@ namespace OnlytestTRPG
             public int Level = 1;
             public string Name;
             public JobType Job; 
-            public int Attack;
-            public int Defense;
-            public int HP;
+            public int Attack;//basicATK
+            public int Defense;  //basicDEF
+            public int HP;   //basicHP
             public int Gold;
 
             public List<Equipment> Inventory = new List<Equipment>();    
