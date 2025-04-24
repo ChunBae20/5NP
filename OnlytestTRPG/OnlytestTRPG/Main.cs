@@ -133,13 +133,6 @@ public class MainSpace
         }
     }
 
-    static void BattleScene()
-    {
-        Console.Clear();
-        Console.WriteLine("전투화면입니다. \n아무 키누르면 프로그램 종료");
-        Console.ReadKey();
-    }
-
     static void TeamMembers()
     {
 

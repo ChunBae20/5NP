@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks.Dataflow;
 
 namespace OnlytestTRPG
@@ -20,7 +22,7 @@ namespace OnlytestTRPG
         //외에는 잘못된 입력
         public void DisplayBattleScene()
         {
-
+            Console.Clear();
             EnemyGenerate();
 
             Console.WriteLine();
@@ -88,26 +90,37 @@ namespace OnlytestTRPG
 
                     if (targetEnemy.IsDead)
                     {
-                        Console.WriteLine("이미 죽어있는 적입니다.");
-                        JoinBattleScene(); // 재귀로 다시 시도
+                        
+                        Console.WriteLine("이미 죽어있는 적입니다. 살아있는 적을 공격해주세요.");
+                        JoinBattleScene();
+                        
                     }
                     else
                     {
                         int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
-                        Console.WriteLine($"{targetEnemy.Name}에게 {damage}의 피해를 입혔습니다.");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Battle!");
+                        Console.ResetColor();
+                        Console.WriteLine($"{player}의 공격!");
+                        Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}을(를) 맞췄습니다. [데미지: {damage}]");
+                        Console.WriteLine();
+                        Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}");
 
                         if (damage >= targetEnemy.CurrentHp)
                         {
+                            Console.WriteLine($"HP {targetEnemy.CurrentHp} -> Dead");
                             targetEnemy.CurrentHp = 0;
                             targetEnemy.IsDead = true;
-                            Console.WriteLine($"{targetEnemy.Name}이(가) 죽었습니다.");
+                            
                         }
                         else
                         {
+                            int beforeHP = targetEnemy.CurrentHp;
                             targetEnemy.CurrentHp -= damage;
+                            Console.WriteLine($"HP {beforeHP} -> {targetEnemy.CurrentHp}");
                         }
                     }
-
+                    
                     EnemyAttackPhase();
 
                     if (status.CurrentHP > 0)
@@ -122,17 +135,7 @@ namespace OnlytestTRPG
 
         public void SetData()
         {
-        //    player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
-        //    itemDb = new Item[]
-        //    {
-        //        new Item(name:"수련자의 갑옷",type:1,value:5, desc:"수련에 도움을 주는 갑옷입니다.", price:1000),
-        //        new Item(name:"무쇠 갑옷",type:1,value:9, desc:"무쇠로 만들어져 튼튼한 갑옷입니다..", price:2000),
-        //        new Item(name:"스파르타의 갑옷",type:1,value:15, desc:"수련에 도움을 주는 갑옷입니다.", price:3500),
-        //        new Item(name:"낡은 검",type:0,value:2, desc:"쉽게 볼 수 있는 낡은 검입니다.", price:600),
-        //        new Item(name:"청동 도끼",type:0,value:5, desc:"어디선가 사용됐던거 같은 도끼입니다.", price:1500),
-        //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
-
-        //    };
+     
             enemyDb = new Enemy[]
             {
                 new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
@@ -161,8 +164,9 @@ namespace OnlytestTRPG
             Console.WriteLine();
             for (int i = 0; i < enemies.Count; i++)
             {
-                string displayIdx = showIdx ? $"{i + 1}. " : "";
-                Console.WriteLine($"{displayIdx}{enemies[i].EnemyInfoText()}");
+                showIdx = !enemies[i].IsDead;
+                string displayIdx = showIdx ? $"{i + 1}." : "";
+                Console.WriteLine($"{displayIdx} {enemies[i].EnemyInfoText()}");
             }
             Console.WriteLine();
         }
@@ -195,7 +199,7 @@ namespace OnlytestTRPG
             int avoidPercent = random.Next(0, 100);
             if (avoidPercent < baseAvd)
             {
-                Console.WriteLine("공격을 회피하였습니다.");
+                string isAvoidtxt = "공격을 회피하였습니다.";
                 return 0;
 
             }
@@ -205,7 +209,7 @@ namespace OnlytestTRPG
             {
                 rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
                 isCritical = true;
-                Console.WriteLine("크리티컬!");
+                string isCritTxt = "크리티컬";
             }
             int finalDamage = rawDamage - baseDef;
             if (finalDamage < 1)
@@ -221,15 +225,24 @@ namespace OnlytestTRPG
         {
             foreach (var enemy in currentEnemies)
             {
+                
                 if(enemy.IsDead) continue;
+                
                 Console.WriteLine($"{enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
                 int wait = CheckInput(0,0);
+                Console.Clear();
                 int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
-                Console.WriteLine($"{enemy.Name}이(가) {player}에게 {enemyDamage}의 피해를 입힘");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Battle!");
+                Console.ResetColor();
+                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
+                Console.WriteLine(); Console.WriteLine($"{player}을(를) 맞췄습니다. [데미지:{enemyDamage}]");
+                Console.WriteLine($"Lv.{status.level} {player}");
+                Console.WriteLine($"HP {status.CurrentHP} -> {status.CurrentHP - enemyDamage}");
 
                 status.CurrentHP -= enemyDamage;
-
+                
                 if (status.CurrentHP <= 0)
                 {
                     status.CurrentHP = 0;
@@ -238,6 +251,7 @@ namespace OnlytestTRPG
                     return;
 
                 }
+                
             }
 
         }
