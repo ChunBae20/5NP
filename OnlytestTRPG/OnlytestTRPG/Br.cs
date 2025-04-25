@@ -111,7 +111,7 @@ namespace OnlytestTRPG
             if (victory)
                 reward.AddRewards(rewardList);
 
-            int damageTaken = hpBeforeFight - Character.player.CurrentHP;
+            int damageTaken = Character.player.maxmaxHP - Character.player.CurrentHP; //♥추가마지막
 
             postChoice = ShowResult(
                 defeatedTypes.Count,
@@ -127,8 +127,8 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         // 결과 화면                                                     
         // --------------------------------------------------------------
-
-        public ResultChoice ShowResult(int killCount, int damageTaken,
+        public static int damageTaken = Character.player.maxmaxHP - Character.player.CurrentHP; //♥추가마지막   수정
+        public static ResultChoice ShowResult(int killCount, int damageTaken,   //♥추가마지막 스태틱추가.
                                    List<Reward> rewardList, BattleResult result)
             {
                 Console.Clear();
@@ -136,16 +136,16 @@ namespace OnlytestTRPG
                 Console.WriteLine((result == BattleResult.Victory ? "Victory" : "You Lose") + "\n");
 
                 if (result == BattleResult.Victory)
-                    Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n");
+                    Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n"); 
 
                 Console.WriteLine("[캐릭터]");
-                Console.WriteLine($"HP {status.TotalHP} -> {Character.player.CurrentHP}  (-{damageTaken})\n");
+            Console.WriteLine($"HP {Character.player.maxmaxHP} -> {Character.player.CurrentHP} (-{damageTaken})\n");
 
-                Console.WriteLine("[획득 보상]");   //여기 이프문추가함
+            Console.WriteLine("[획득 보상]");   //여기 이프문추가함
                 if (result == BattleResult.Victory)
                 {
-                    foreach (var reward in rewardList)
-                        Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");
+                // foreach (var reward in rewardList)     //♥골드반복 지움
+                //   Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");♥골드반복 지움
 
                 foreach (var reward in rewardList)
                 {
@@ -176,11 +176,13 @@ namespace OnlytestTRPG
                         Console.WriteLine($"{reward.EquipmentName} x{reward.Amount} (인벤토리에 추가됨)");//x는 그냥 관상용임 문법아니니까 안심하셈
                     }
 
+                    /* //♥골드반복 지움
                     else
                     {
                         // 골드나 포션 같은 일반 보상 출력
                         Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");
                     }
+                    */
                 }
 
 
