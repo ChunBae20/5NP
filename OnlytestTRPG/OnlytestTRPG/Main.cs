@@ -127,15 +127,27 @@ public class MainSpace
     {
         while (true)
         {
-            string input = Console.ReadLine() ?? "";
-            bool IsSelect = int.TryParse(input, out int number);
+                Console.Write(">>");
+                string input = Console.ReadLine() ?? "";
 
-            if (IsSelect && min <= number && max >= number)
-            {
-                return number;
+                bool isValid = int.TryParse(input, out int number);
+
+                if (isValid && number >= min && number <= max)
+                {
+                    return number;
+                }
+
+                // 잘못된 입력 메시지 출력
+                Console.WriteLine("잘못된 입력입니다");
+                Thread.Sleep(1000);
+
+                // "잘못된 입력입니다" 메시지 지우기
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, Console.CursorTop);
             }
-            Console.WriteLine("잘못된 입력입니다");
-        }
     }
 
     /*static void BattleScene()

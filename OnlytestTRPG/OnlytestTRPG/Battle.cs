@@ -20,7 +20,7 @@ namespace OnlytestTRPG
         //외에는 잘못된 입력
         public void DisplayBattleScene()
         {
-
+            Console.Clear();
             EnemyGenerate();
 
             Console.WriteLine();
@@ -30,7 +30,7 @@ namespace OnlytestTRPG
             Console.WriteLine("1.공격");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
-            int result = CheckInput(0,1);
+            int result = Input(0,1);
             switch (result)
             {
                 case 1:
@@ -39,7 +39,7 @@ namespace OnlytestTRPG
             }
         }
 
-        public static void JoinBattleScene()
+        public void JoinBattleScene()
         {
             bool allDead = true;
             foreach (Enemy enemy in currentEnemies)
@@ -78,7 +78,7 @@ namespace OnlytestTRPG
             BattleCharacterInfo();
             Console.WriteLine();
             Console.WriteLine("공격할 적을 입력해주세요");
-            int result = CheckInput(1, currentEnemies.Count);
+            int result = Input(1, currentEnemies.Count);
 
             switch (result)
             {
@@ -89,26 +89,40 @@ namespace OnlytestTRPG
                     if (targetEnemy.IsDead)
                     {
                         Console.WriteLine("이미 죽어있는 적입니다.");
-                        JoinBattleScene(); // 재귀로 다시 시도
+                        Thread.Sleep(1000);
+                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        Console.Write(new string(' ', Console.WindowWidth));
+                        Console.SetCursorPosition(0, Console.CursorTop);
                     }
                     else
                     {
+                        Console.Clear();
                         int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
-                        Console.WriteLine($"{targetEnemy.Name}에게 {damage}의 피해를 입혔습니다.");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Battle!");
+                        Console.ResetColor();
+                        Console.WriteLine();
+                        Console.WriteLine($"{status.name}의 공격!");
+                        Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}을(를) 맞췄습니다. [데미지: {damage}]");
+                        Console.WriteLine();
+                        Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}");
 
                         if (damage >= targetEnemy.CurrentHp)
                         {
+                            Console.WriteLine($"HP {targetEnemy.CurrentHp} -> Dead");
                             targetEnemy.CurrentHp = 0;
                             targetEnemy.IsDead = true;
-                            Console.WriteLine($"{targetEnemy.Name}이(가) 죽었습니다.");
                         }
                         else
                         {
+                            int beforeHP = targetEnemy.CurrentHp;
                             targetEnemy.CurrentHp -= damage;
+                            Console.WriteLine($"HP {beforeHP} -> {targetEnemy.CurrentHp}");
                         }
+                        EnemyAttackPhase();
                     }
 
-                    EnemyAttackPhase();
+                    
 
                     if (Character.player.CurrentHP > 0)
                     {
@@ -153,7 +167,7 @@ namespace OnlytestTRPG
                 currentEnemies.Add(enemyIstance);
             }
         }
-        static void ShowEnemy(List<Enemy> enemies,bool showIdx)
+        void ShowEnemy(List<Enemy> enemies,bool showIdx)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Battle!");
@@ -161,28 +175,14 @@ namespace OnlytestTRPG
             Console.WriteLine();
             for (int i = 0; i < enemies.Count; i++)
             {
-                string displayIdx = showIdx ? $"{i + 1}. " : "";
-                Console.WriteLine($"{displayIdx}{enemies[i].EnemyInfoText()}");
+                showIdx = !enemies[i].IsDead;
+                string displayIdx = showIdx ? $"{i + 1}." : "";
+                Console.WriteLine($"{displayIdx} {enemies[i].EnemyInfoText()}");
             }
             Console.WriteLine();
         }
 
-        static int CheckInput(int min, int max)
-        {
-            int result;
-            while (true)
-            {
-                string input = Console.ReadLine();
-                bool isNumber = int.TryParse(input, out result);
-                if (isNumber)
-                {
-                    if (result >= min && result <= max)
-                        return result;
-                }
-                Console.WriteLine("잘못된 입력입니다!!!!");
-            }
-
-        }
+        
 
 
         static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
@@ -217,23 +217,23 @@ namespace OnlytestTRPG
 
 
 
-        static void EnemyAttackPhase()
+        void EnemyAttackPhase()
         {
             foreach (var enemy in currentEnemies)
             {
                 if(enemy.IsDead) continue;
                 Console.WriteLine($"{enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
-                int wait = CheckInput(0,0);
+                int wait = Input(0,0);
                 int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
-                Console.WriteLine($"{enemy.Name}이(가) {player}에게 {enemyDamage}의 피해를 입힘");
+                Console.WriteLine($"{enemy.Name}이(가) {status.name}에게 {enemyDamage}의 피해를 입힘");
 
                 Character.player.CurrentHP -= enemyDamage;
 
                 if (Character.player.CurrentHP <= 0)
                 {
                     Character.player.CurrentHP = 0;
-                    Console.WriteLine($"{player}이(가) 쓰러졌습니다.");
+                    Console.WriteLine($"{status.name}이(가) 쓰러졌습니다.");
                     Console.WriteLine("GameOver");
                     return;
 
@@ -246,7 +246,7 @@ namespace OnlytestTRPG
         static void BattleCharacterInfo()
         {
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{status.level} {player}({status.job})");
+            Console.WriteLine($"Lv.{status.level} {status.name}({status.job})");
             Console.Write($"HP {Character.player.CurrentHP}/" );//아 이거 이거였네 100고정이아니라 걍 
             Console.WriteLine(Character.player.maxmaxHP);
         }
