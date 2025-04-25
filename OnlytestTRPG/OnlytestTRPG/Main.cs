@@ -118,24 +118,34 @@ public class MainSpace
         Console.WriteLine("상태보기 입니다. \n아무 키나 누르면 돌아갑니다.");
         Console.ReadKey();
     }
-    public int Input(int min, int max)   
-    {
-        while (true)
+        public int Input(int min, int max)
         {
-                
-                string input = Console.ReadLine() ?? "";
-            bool IsSelect = int.TryParse(input, out int number);
-
-            if (IsSelect && min <= number && max >= number)
+            while (true)
             {
-                return number;
-            }
-                Console.WriteLine("잘못된 입력입니다.");
-           
-         }
-    }
+                Console.Write(">>");
+                string input = Console.ReadLine() ?? "";
 
-    static void TeamMembers()
+                bool isValid = int.TryParse(input, out int number);
+
+                if (isValid && number >= min && number <= max)
+                {
+                    return number;
+                }
+
+                // 잘못된 입력 메시지 출력
+                Console.WriteLine("잘못된 입력입니다");
+                Thread.Sleep(1000);
+
+                // "잘못된 입력입니다" 메시지 지우기
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+                Console.Write(new string(' ', Console.WindowWidth));
+                Console.SetCursorPosition(0, Console.CursorTop);
+            }
+        }
+
+        static void TeamMembers()
     {
 
         Console.Clear();

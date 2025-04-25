@@ -43,6 +43,7 @@ namespace OnlytestTRPG
 
         public void JoinBattleScene()
         {
+            Console.Clear();
             bool allDead = true;
             foreach (Enemy enemy in currentEnemies)
             {
@@ -82,6 +83,7 @@ namespace OnlytestTRPG
             Console.WriteLine("공격할 적을 입력해주세요");
             int result = Input(1, currentEnemies.Count);
 
+            
             switch (result)
             {
                 default:
@@ -92,17 +94,21 @@ namespace OnlytestTRPG
                     {
                         
                         Console.WriteLine("이미 죽어있는 적입니다. 살아있는 적을 공격해주세요.");
-                        Console.WriteLine("아무키나 입력하세요");
-                        Console.ReadKey();
-                        JoinBattleScene();
+                        Thread.Sleep(1000);
+                        Console.SetCursorPosition(0, Console.CursorTop - 1);
+                        Console.Write(new string(' ', Console.WindowWidth));
+                        Console.SetCursorPosition(0, Console.CursorTop);
+                        
                         
                     }
                     else
                     {
+                        Console.Clear();
                         int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Battle!");
                         Console.ResetColor();
+                        Console.WriteLine();
                         Console.WriteLine($"{player}의 공격!");
                         Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}을(를) 맞췄습니다. [데미지: {damage}]");
                         Console.WriteLine();
@@ -121,9 +127,10 @@ namespace OnlytestTRPG
                             targetEnemy.CurrentHp -= damage;
                             Console.WriteLine($"HP {beforeHP} -> {targetEnemy.CurrentHp}");
                         }
+                        EnemyAttackPhase();
                     }
                     
-                    EnemyAttackPhase();
+                    
 
                     if (status.CurrentHP > 0)
                     {
@@ -212,12 +219,13 @@ namespace OnlytestTRPG
 
         void EnemyAttackPhase()
         {
+            
             foreach (var enemy in currentEnemies)
             {
                 
                 if(enemy.IsDead) continue;
                 
-                Console.WriteLine($"{enemy.Name}이 공격 대기중");
+                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
                 int wait = Input(0,0);
                 Console.Clear();
