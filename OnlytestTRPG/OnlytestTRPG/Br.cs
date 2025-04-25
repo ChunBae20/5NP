@@ -119,7 +119,7 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         // public static int hpBeforeBattle = Character.player.CurrentHP;
         // public static int hpAfterBattle = Character.player.maxmaxHP;
-        public static int hpBeforeBattledamageTaken = Character.player.maxmaxHP - Character.player.CurrentHP;
+        public static int damageTaken = Character.player.maxmaxHP - Character.player.CurrentHP;
 
                 public static ResultChoice ShowResult(int killCount, int damageTaken, 
                                    List<Reward> rewardList, BattleResult result)  //민종곤 damageTaken 삭제 static 추가
@@ -135,7 +135,7 @@ namespace OnlytestTRPG
                     Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n");
 
                 Console.WriteLine("[캐릭터]");
-                Console.WriteLine($"HP {Character.player.maxmaxHP} -> {Character.player.CurrentHP} (-{hpBeforeBattledamageTaken})\n"); //민종곤 damageTaken 삭제 
+                Console.WriteLine($"HP {Character.player.maxmaxHP} -> {Character.player.CurrentHP} (-{damageTaken})\n"); //민종곤 damageTaken 삭제 
 
                 Console.WriteLine("[획득 보상]");   //여기 이프문추가함
                 if (result == BattleResult.Victory)
