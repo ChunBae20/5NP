@@ -74,7 +74,6 @@ namespace OnlytestTRPG
             Console.WriteLine("2. 판매");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
-            Console.Write(">> ");
 
             int num = Input(0, 2);
 
@@ -101,7 +100,6 @@ namespace OnlytestTRPG
 
             Console.WriteLine("\n\n0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
-            Console.Write(">> ");
 
             int num = Input(0, itemList.Count);
 
@@ -157,7 +155,6 @@ namespace OnlytestTRPG
 
             Console.WriteLine("\n\n0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
-            Console.Write(">> ");
 
             int num = Input(0, inventory.Count);
 
