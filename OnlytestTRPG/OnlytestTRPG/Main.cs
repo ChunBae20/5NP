@@ -122,15 +122,17 @@ public class MainSpace
     {
         while (true)
         {
-            string input = Console.ReadLine() ?? "";
+                
+                string input = Console.ReadLine() ?? "";
             bool IsSelect = int.TryParse(input, out int number);
 
             if (IsSelect && min <= number && max >= number)
             {
                 return number;
             }
-            Console.WriteLine("잘못된 입력입니다");
-        }
+                Console.WriteLine("잘못된 입력입니다.");
+           
+         }
     }
 
     static void TeamMembers()

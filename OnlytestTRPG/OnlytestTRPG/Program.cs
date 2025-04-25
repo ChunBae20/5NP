@@ -32,7 +32,7 @@ namespace OnlytestTRPG
             Console.WriteLine("1.공격");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
-            int result = CheckInput(0,1);
+            int result = Input(0,1);
             switch (result)
             {
                 case 1:
@@ -41,7 +41,7 @@ namespace OnlytestTRPG
             }
         }
 
-        public static void JoinBattleScene()
+        public void JoinBattleScene()
         {
             bool allDead = true;
             foreach (Enemy enemy in currentEnemies)
@@ -80,7 +80,7 @@ namespace OnlytestTRPG
             BattleCharacterInfo();
             Console.WriteLine();
             Console.WriteLine("공격할 적을 입력해주세요");
-            int result = CheckInput(1, currentEnemies.Count);
+            int result = Input(1, currentEnemies.Count);
 
             switch (result)
             {
@@ -92,6 +92,8 @@ namespace OnlytestTRPG
                     {
                         
                         Console.WriteLine("이미 죽어있는 적입니다. 살아있는 적을 공격해주세요.");
+                        Console.WriteLine("아무키나 입력하세요");
+                        Console.ReadKey();
                         JoinBattleScene();
                         
                     }
@@ -171,22 +173,7 @@ namespace OnlytestTRPG
             Console.WriteLine();
         }
 
-        static int CheckInput(int min, int max)
-        {
-            int result;
-            while (true)
-            {
-                string input = Console.ReadLine();
-                bool isNumber = int.TryParse(input, out result);
-                if (isNumber)
-                {
-                    if (result >= min && result <= max)
-                        return result;
-                }
-                Console.WriteLine("잘못된 입력입니다!!!!");
-            }
-
-        }
+        
 
 
         static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
@@ -195,21 +182,23 @@ namespace OnlytestTRPG
             int min = baseAtk - errorRange;
             int max = baseAtk + errorRange;
             int rawDamage = random.Next(min, max + 1) - baseDef;
-
+            bool isCrit = false;
             int avoidPercent = random.Next(0, 100);
             if (avoidPercent < baseAvd)
             {
-                string isAvoidtxt = "공격을 회피하였습니다.";
+                
+                
                 return 0;
+                
 
             }
-            bool isCritical = false;
+            
             int criticalPercent = random.Next(0, 100);
             if (criticalPercent < baseCrt)
             {
                 rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
-                isCritical = true;
-                string isCritTxt = "크리티컬";
+                isCrit = true;
+                
             }
             int finalDamage = rawDamage - baseDef;
             if (finalDamage < 1)
@@ -221,7 +210,7 @@ namespace OnlytestTRPG
 
 
 
-        static void EnemyAttackPhase()
+        void EnemyAttackPhase()
         {
             foreach (var enemy in currentEnemies)
             {
@@ -230,7 +219,7 @@ namespace OnlytestTRPG
                 
                 Console.WriteLine($"{enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
-                int wait = CheckInput(0,0);
+                int wait = Input(0,0);
                 Console.Clear();
                 int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
                 Console.ForegroundColor = ConsoleColor.Red;
