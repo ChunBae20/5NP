@@ -41,6 +41,7 @@ namespace OnlytestTRPG
 
         public void JoinBattleScene()
         {
+            Console.Clear();
             bool allDead = true;
             foreach (Enemy enemy in currentEnemies)
             {
@@ -88,7 +89,7 @@ namespace OnlytestTRPG
 
                     if (targetEnemy.IsDead)
                     {
-                        Console.WriteLine("이미 죽어있는 적입니다.");
+                        Console.WriteLine("이미 죽어있는 적입니다. 살아있는 적을 공격해주세요.");
                         Thread.Sleep(1000);
                         Console.SetCursorPosition(0, Console.CursorTop - 1);
                         Console.Write(new string(' ', Console.WindowWidth));
@@ -222,12 +223,19 @@ namespace OnlytestTRPG
             foreach (var enemy in currentEnemies)
             {
                 if(enemy.IsDead) continue;
-                Console.WriteLine($"{enemy.Name}이 공격 대기중");
+                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
                 int wait = Input(0,0);
+                Console.Clear();
                 int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
-                Console.WriteLine($"{enemy.Name}이(가) {status.name}에게 {enemyDamage}의 피해를 입힘");
-
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Battle!");
+                Console.ResetColor();
+                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
+                Console.WriteLine();
+                Console.WriteLine($"{status.name}를 맞췄습니다. [데미지: {enemyDamage}]");
+                Console.WriteLine($"Lv.{status.level} {status.name}");
+                Console.WriteLine($"HP {Character.player.CurrentHP} -> {Character.player.CurrentHP - enemyDamage}");
                 Character.player.CurrentHP -= enemyDamage;
 
                 if (Character.player.CurrentHP <= 0)

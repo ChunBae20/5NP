@@ -27,17 +27,17 @@ namespace OnlytestTRPG
         public string EnemyInfoText()
         {
 
-            string status = IsDead ? $"Dead" : $" HP {CurrentHp}";
+            string status = IsDead ? $"[Dead]" : $" HP {CurrentHp}/{MaxHp}";
             if (IsDead)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine($"Lv. {Level} {Name} {status}");
+                Console.Write(($"{status} Lv. {Level} {Name} "));
                 Console.ResetColor();
                 return "";
             }
             else
             {
-                return $"Lv.{Level} {Name} HP:{status}";
+                return $"Lv.{Level} {Name} {status}";
             }
                 
         }
