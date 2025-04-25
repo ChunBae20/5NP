@@ -1,23 +1,53 @@
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks.Dataflow;
 
 namespace OnlytestTRPG
 {
-    
-    
+    class Enemy
+    {
+        public int Level;
+        public string Name;
+        public int Atk;
+        public int MaxHp;
+        public int CurrentHP;
+        public bool IsDead = false;
+
+        public Enemy(string name, int level, int atk, int maxHp, int currentHP)
+        {
+            Name = name;
+            Level = level;
+            Atk = atk;
+            MaxHp = maxHp;
+            CurrentHP = currentHP;
+
+        }
+        public string EnemyInfoText()
+        {
+
+            string status = IsDead ? $"[Dead]" : $" HP {CurrentHP}/{MaxHp}";
+            if (IsDead)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write(($"{status} Lv. {Level} {Name} "));
+                Console.ResetColor();
+                return "";
+            }
+            else
+            {
+                return $"Lv.{Level} {Name} {status}";
+            }
+
+        }
+    }
+
     public class BattleScene : MainSpace
     {
-        
         private static Character? player;
         private static Item[]? itemDb;
-        private static Enemy[]? enemyDb;
         static Random random = new Random();
-        //battle!
-        //적 몬스터 출현 1~4마리 출현
-        //[내정보]
-        //1. 공격
-        //외에는 잘못된 입력
+
         public void DisplayBattleScene()
         {
             Console.Clear();
@@ -30,7 +60,7 @@ namespace OnlytestTRPG
             Console.WriteLine("1.공격");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
-            int result = Input(0,1);
+            int result = Input(0, 1);
             switch (result)
             {
                 case 1:
@@ -98,34 +128,34 @@ namespace OnlytestTRPG
                     else
                     {
                         Console.Clear();
-                        int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
+                        int damage = CalculateDamage(status.BasicSTR + status.NowEquipSTR, 0, 0, status.BasicSTR + status.NowEquipSTR);
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Battle!");
                         Console.ResetColor();
                         Console.WriteLine();
-                        Console.WriteLine($"{status.name}의 공격!");
+                        Console.WriteLine($"{status.Name}의 공격!");
                         Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}을(를) 맞췄습니다. [데미지: {damage}]");
                         Console.WriteLine();
                         Console.WriteLine($"Lv.{targetEnemy.Level} {targetEnemy.Name}");
 
-                        if (damage >= targetEnemy.CurrentHp)
+                        if (damage >= targetEnemy.CurrentHP)
                         {
-                            Console.WriteLine($"HP {targetEnemy.CurrentHp} -> Dead");
-                            targetEnemy.CurrentHp = 0;
+                            Console.WriteLine($"HP {targetEnemy.CurrentHP} -> Dead");
+                            targetEnemy.CurrentHP = 0;
                             targetEnemy.IsDead = true;
                         }
                         else
                         {
-                            int beforeHP = targetEnemy.CurrentHp;
-                            targetEnemy.CurrentHp -= damage;
-                            Console.WriteLine($"HP {beforeHP} -> {targetEnemy.CurrentHp}");
+                            int beforeHP = targetEnemy.CurrentHP;
+                            targetEnemy.CurrentHP -= damage;
+                            Console.WriteLine($"HP {beforeHP} -> {targetEnemy.CurrentHP}");
                         }
                         EnemyAttackPhase();
                     }
 
-                    
 
-                    if (Character.player.CurrentHP > 0)
+
+                    if (status.CurrentHP > 0)
                     {
                         Console.WriteLine();
                         JoinBattleScene();
@@ -134,31 +164,17 @@ namespace OnlytestTRPG
             }
 
         }
-
-        public void SetData()
+        internal static Enemy[] enemyDb = new Enemy[]
         {
-        //    player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
-        //    itemDb = new Item[]
-        //    {
-        //        new Item(name:"수련자의 갑옷",type:1,value:5, desc:"수련에 도움을 주는 갑옷입니다.", price:1000),
-        //        new Item(name:"무쇠 갑옷",type:1,value:9, desc:"무쇠로 만들어져 튼튼한 갑옷입니다..", price:2000),
-        //        new Item(name:"스파르타의 갑옷",type:1,value:15, desc:"수련에 도움을 주는 갑옷입니다.", price:3500),
-        //        new Item(name:"낡은 검",type:0,value:2, desc:"쉽게 볼 수 있는 낡은 검입니다.", price:600),
-        //        new Item(name:"청동 도끼",type:0,value:5, desc:"어디선가 사용됐던거 같은 도끼입니다.", price:1500),
-        //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
+            new Enemy("독고벌레", 2, 5, 15, 15),
+            new Enemy("바위게", 3, 9, 10, 10),
+            new Enemy("늑대 고블린", 4, 7, 20, 20),
+            new Enemy("칼날구울", 5, 8, 25, 25),
+            new Enemy("핏빛 리자드맨", 8, 8, 30, 30),
+            new Enemy("쌍둥이 골렘", 10, 10, 70, 70)
+        };
 
-        //    };
-             enemyDb= new Enemy[]
-            {
-                 new Enemy(name:"독고벌레", level:2, atk: 5, maxHp: 15),
-                 new Enemy(name:"바위게", level:3, atk: 9, maxHp: 10),
-                 new Enemy(name:"늑대 고블린", level:4, atk: 7, maxHp:20),
-                 new Enemy(name:"칼날구울", level:5, atk: 8, maxHp:25),
-                 new Enemy(name:"핏빛 리자드맨", level:8, atk: 8, maxHp:30),
-                 new Enemy(name:"쌍둥이 골렘", level:10, atk: 10, maxHp:70)
-            };
-    }
-    static List<Enemy> currentEnemies = new List<Enemy>(); 
+        static List<Enemy> currentEnemies = new List<Enemy>();
         static void EnemyGenerate()
         {
             int enemyCount = random.Next(1, 5); //1~4마리
@@ -167,11 +183,11 @@ namespace OnlytestTRPG
             for (int i = 0; i < enemyCount; i++)
             {
                 Enemy template = enemyDb[random.Next(enemyDb.Length)];
-                Enemy enemyIstance = new Enemy(template.Name, template.Level, template.Atk, template.MaxHp);
+                Enemy enemyIstance = new Enemy(template.Name, template.Level, template.Atk, template.MaxHp, template.CurrentHP);
                 currentEnemies.Add(enemyIstance);
             }
         }
-        void ShowEnemy(List<Enemy> enemies,bool showIdx)
+        void ShowEnemy(List<Enemy> enemies, bool showIdx)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Battle!");
@@ -186,7 +202,7 @@ namespace OnlytestTRPG
             Console.WriteLine();
         }
 
-        
+
 
 
         static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
@@ -203,12 +219,10 @@ namespace OnlytestTRPG
                 return 0;
 
             }
-            bool isCritical = false;
             int criticalPercent = random.Next(0, 100);
             if (criticalPercent < baseCrt)
             {
                 rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
-                isCritical = true;
                 //Console.WriteLine("크리티컬!");-> 여유 되면 크리티컬 출력(잠수함으로 데미지 2배 들어옵니다) 지우지말아주세요 지민
             }
             int finalDamage = rawDamage - baseDef;
@@ -225,25 +239,25 @@ namespace OnlytestTRPG
         {
             foreach (var enemy in currentEnemies)
             {
-                if(enemy.IsDead) continue;
+                if (enemy.IsDead) continue;
                 Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}이 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
-                int wait = Input(0,0);
+                int wait = Input(0, 0);
                 Console.Clear();
-                int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
+                int enemyDamage = CalculateDamage(enemy.Atk, status.BasicSTR + status.NowEquipSTR, status.BasicSTR + status.NowEquipSTR, 0);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Battle!");
                 Console.ResetColor();
                 Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
-                
+
                 Console.WriteLine();
-                Console.WriteLine($"{status.name}를 맞췄습니다. [데미지: {enemyDamage}]");
-                Console.WriteLine($"Lv.{status.level} {status.name}");
-                Console.WriteLine($"HP {Character.player.CurrentHP} -> {Character.player.CurrentHP - enemyDamage}");
-                Character.player.CurrentHP -= enemyDamage;
+                Console.WriteLine($"{status.Name}를 맞췄습니다. [데미지: {enemyDamage}]");
+                Console.WriteLine($"Lv.{status.Level} {status.Name}");
+                Console.WriteLine($"HP {status.CurrentHP} -> {status.CurrentHP - enemyDamage}");
+                status.CurrentHP -= enemyDamage;
 
                 //♥
-                if (Character.player.CurrentHP <= 0) ////민종곤 damageTaken 삭제  
+                if (status.CurrentHP <= 0) ////민종곤 damageTaken 삭제  
                 {
                     var emptyRewards = new List<Reward>();   // 패배는 보상 없음
                     Program.ShowResult(     // ← 민종곤 방금 만든 static 메서드 showResult 부분이랑 연결
@@ -267,14 +281,14 @@ namespace OnlytestTRPG
         static void BattleCharacterInfo()
         {
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{status.level} {status.name}({status.job})");
-            Console.Write($"HP {Character.player.CurrentHP}/" );//아 이거 이거였네 100고정이아니라 걍 
-            Console.WriteLine(Character.player.maxmaxHP);
+            Console.WriteLine($"Lv.{status.Level} {status.Name}({status.Job})");
+            Console.Write($"HP {status.CurrentHP}/");//아 이거 이거였네 100고정이아니라 걍 
+            Console.WriteLine(status.TotalHP);
         }
 
 
 
-        
-        }
+
     }
+}
 
