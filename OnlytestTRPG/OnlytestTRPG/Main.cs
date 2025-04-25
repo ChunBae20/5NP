@@ -123,7 +123,7 @@ public class MainSpace
         Console.WriteLine("상태보기 입니다. \n아무 키나 누르면 돌아갑니다.");
         Console.ReadKey();
     }
-    public int Input(int min, int max)   
+    public static int Input(int min, int max)   //static 추가 민종곤
     {
         while (true)
         {

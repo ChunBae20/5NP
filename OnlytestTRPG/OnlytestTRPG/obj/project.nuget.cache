@@ -1,13 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UNzoqtL7oKE=",
+  "dgSpecHash": "u/9OlC11dZQ=",
   "success": true,
-  "projectFilePath": "C:\\GIthubdeskTest\\5NP\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\nearl\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.12\\microsoft.windowsdesktop.app.ref.8.0.12.nupkg.sha512",
-    "C:\\Users\\nearl\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.12\\microsoft.netcore.app.ref.8.0.12.nupkg.sha512",
-    "C:\\Users\\nearl\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.12\\microsoft.aspnetcore.app.ref.8.0.12.nupkg.sha512",
-    "C:\\Users\\nearl\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.12\\microsoft.netcore.app.host.win-x64.8.0.12.nupkg.sha512"
-  ],
+  "projectFilePath": "/Users/minjonggon/Documents/GitHub/5NP/OnlytestTRPG/OnlytestTRPG/OnlytestTRPG.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }
