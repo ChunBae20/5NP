@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Threading.Tasks.Dataflow;
 
@@ -242,14 +242,23 @@ namespace OnlytestTRPG
                 Console.WriteLine($"HP {Character.player.CurrentHP} -> {Character.player.CurrentHP - enemyDamage}");
                 Character.player.CurrentHP -= enemyDamage;
 
-                if (Character.player.CurrentHP <= 0)
+                //♥
+                if (Character.player.CurrentHP <= 0) ////민종곤 damageTaken 삭제  
                 {
-                    Character.player.CurrentHP = 0;
-                    Console.WriteLine($"{status.name}이(가) 쓰러졌습니다.");
-                    Console.WriteLine("GameOver");
-                    return;
+                    var emptyRewards = new List<Reward>();   // 패배는 보상 없음
+                    Program.ShowResult(     // ← 민종곤 방금 만든 static 메서드 showResult 부분이랑 연결
+                        damageTaken: 0,
+                        killCount: 0,
+                        rewardList: emptyRewards,
+                        result: BattleResult.Defeat);
+
+                    /* ShowResult() 안에서 Environment.Exit(0) 이 호출되므로
+                       아래 return 은 형식상 남겨 둡니다. */
+                    return; // 민종곤 전투 종료 로직 연결
 
                 }
+
+                //♥
             }
 
         }
