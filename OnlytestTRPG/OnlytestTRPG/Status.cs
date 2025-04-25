@@ -25,10 +25,10 @@ namespace OnlytestTRPG
         public JobType job = Character.player.Job;//직업 추가 000
         public string name = Character.player.Name; //이름추가000
 
-        public int basicCRT = 0;
+        public int basicCRT = 100;
         public int basicSTR = Character.player.Attack;             //기본 공격력
         public int basicDEF = Character.player.Defense;             //기본 방어력
-        public int basicAVD = 10;
+        public int basicAVD = 100;
         public int basicHP = Character.player.HP;            //기본 체력
         public int basicGold = 1500;         //기본 소지금
 

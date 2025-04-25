@@ -150,12 +150,15 @@ namespace OnlytestTRPG
         //    };
              enemyDb= new Enemy[]
             {
-                new Enemy(name:"미니언", level:2, atk: 5, maxHp: 15),
-                new Enemy(name:"공허충", level:3, atk: 9, maxHp: 10),
-                new Enemy(name:"대포미니언", level:5, atk: 8, maxHp:25)
+                 new Enemy(name:"독고벌레", level:2, atk: 5, maxHp: 15),
+                 new Enemy(name:"바위게", level:3, atk: 9, maxHp: 10),
+                 new Enemy(name:"늑대 고블린", level:4, atk: 7, maxHp:20),
+                 new Enemy(name:"칼날구울", level:5, atk: 8, maxHp:25),
+                 new Enemy(name:"핏빛 리자드맨", level:8, atk: 8, maxHp:30),
+                 new Enemy(name:"쌍둥이 골렘", level:10, atk: 10, maxHp:70)
             };
     }
-    static List<Enemy> currentEnemies = new List<Enemy>();
+    static List<Enemy> currentEnemies = new List<Enemy>(); 
         static void EnemyGenerate()
         {
             int enemyCount = random.Next(1, 5); //1~4마리
@@ -196,7 +199,7 @@ namespace OnlytestTRPG
             int avoidPercent = random.Next(0, 100);
             if (avoidPercent < baseAvd)
             {
-                Console.WriteLine("공격을 회피하였습니다.");
+                //Console.WriteLine("공격을 회피하였습니다."); -> 여유 되면 회피 출력(잠수함으로 데미지 0들어옵니다) 지우지말아주세요 지민
                 return 0;
 
             }
@@ -206,7 +209,7 @@ namespace OnlytestTRPG
             {
                 rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
                 isCritical = true;
-                Console.WriteLine("크리티컬!");
+                //Console.WriteLine("크리티컬!");-> 여유 되면 크리티컬 출력(잠수함으로 데미지 2배 들어옵니다) 지우지말아주세요 지민
             }
             int finalDamage = rawDamage - baseDef;
             if (finalDamage < 1)
@@ -232,6 +235,7 @@ namespace OnlytestTRPG
                 Console.WriteLine("Battle!");
                 Console.ResetColor();
                 Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
+                
                 Console.WriteLine();
                 Console.WriteLine($"{status.name}를 맞췄습니다. [데미지: {enemyDamage}]");
                 Console.WriteLine($"Lv.{status.level} {status.name}");
