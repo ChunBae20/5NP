@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OnlytestTRPG
 {
-    internal class Item
+    public class Item  //인터널에서 바꿨음 -팀장-
     {
         public string ItemName;
         public string ItemType;
@@ -34,6 +34,13 @@ namespace OnlytestTRPG
     }
     public class Store : MainSpace
     {
+        //이거 보상도 이걸 좀 끌어다 써야겠는데?어떻게하지? 이거 하나더만들고 이름만 다르게해서 또 불러야하나?
+        public static List<Item> itemList = new List<Item>()  //이거도 퍼블릭으로 바꿈 -팀장-
+        {
+            new("낡은 검", "공격력", 2, 500),
+            new("낡은 옷", "방어력", 2, 500)
+        };
+
         public void QuestWorking(string questProcess)
         {
             QuestInfo activeQuest = GetCurrentAcceptedQuest(questProcess);

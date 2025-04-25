@@ -1,9 +1,11 @@
 using OnlytestTRPG;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 
 
@@ -23,7 +25,7 @@ namespace OnlytestTRPG
         {
             public string EquipmentName { get; }
             public int Amount { get; }
-            public Dictionary<string, int> Inventory { get; } = new();
+            public Dictionary<string, int> Inventory { get; } = new(); //인벤토리를 따온다고? 애드는 어딧지
 
             public Reward(string name, int amount)
             {
@@ -73,8 +75,17 @@ namespace OnlytestTRPG
         {
             {"미니언"    , new(){ new("Gold",50) } },
             {"공허충"    , new(){ new("Gold",150)} },
-            {"대포미니언", new(){ new("Gold",300), new("포션",1), new("낡은검",1)} }
+            {"대포미니언", new(){ new("Gold",300), new("포션",1), new("낡은 검",1)} }
         };
+
+        
+          static List<Item> itemList = new List<Item>()
+        {
+            new("낡은 검", "공격력", 2, 500),
+            new("낡은 옷", "방어력", 2, 500)
+        };
+
+        
 
         // 배틀 종료
         // --------------------------------------------------------------
@@ -82,15 +93,15 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         public BattleResult Battle(Reward reward, List<string> defeatedTypes, out ResultChoice postChoice)
         {
-            int hpBeforeFight = status.CurrentHP;
+            int hpBeforeFight = Character.player.CurrentHP;
 
             var rewardList = CollectAllRewards(defeatedTypes);
 
-            bool victory = status.CurrentHP > 0;
+            bool victory = Character.player.CurrentHP > 0;
             if (victory)
                 reward.AddRewards(rewardList);
 
-            int damageTaken = hpBeforeFight - status.CurrentHP;
+            int damageTaken = hpBeforeFight - Character.player.CurrentHP;
 
             postChoice = ShowResult(
                 defeatedTypes.Count,
@@ -118,14 +129,52 @@ namespace OnlytestTRPG
                     Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n");
 
                 Console.WriteLine("[캐릭터]");
-                Console.WriteLine($"HP {status.TotalHP} -> {status.CurrentHP}  (-{damageTaken})\n");
+                Console.WriteLine($"HP {status.TotalHP} -> {Character.player.CurrentHP}  (-{damageTaken})\n");
 
-                Console.WriteLine("[획득 보상]");
+                Console.WriteLine("[획득 보상]");   //여기 이프문추가함
                 if (result == BattleResult.Victory)
                 {
                     foreach (var reward in rewardList)
                         Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");
+
+                foreach (var reward in rewardList)
+                {
+
+                    if (reward.EquipmentName == "Gold")                                                                 //골드추가 시작
+                    {
+                        MainSpace.status.basicGold += reward.Amount;
+                        Console.WriteLine($"Gold +{reward.Amount} (보유 골드: {MainSpace.status.basicGold})");          //골드추가 종료
+                    }
+
+                    else if (reward.EquipmentName == "포션")
+                    {
+                        MainSpace.healItem.AddPotion(reward.Amount);
+                        Console.WriteLine($"포션 +{reward.Amount} (총 {HealItem.potion}개 보유)");
+                    }
+
+                    var itemData = itemList.FirstOrDefault(item => item.ItemName == reward.EquipmentName);
+
+                    if (itemData != null)
+                    {
+                       
+                        for (int i = 0; i < reward.Amount; i++)
+                        {
+                            var newEquip = new Equipment(itemData.ItemName, itemData.ItemType, itemData.ItemStat, itemData.Price);
+                            Inventory.equipment.Add(newEquip);
+                        }
+
+                        Console.WriteLine($"{reward.EquipmentName} x{reward.Amount} (인벤토리에 추가됨)");//x는 그냥 관상용임 문법아니니까 안심하셈
+                    }
+
+                    else
+                    {
+                        // 골드나 포션 같은 일반 보상 출력
+                        Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");
+                    }
                 }
+
+
+            }
                 else
                     Console.WriteLine("없음");
                 Console.WriteLine();
@@ -177,10 +226,9 @@ namespace OnlytestTRPG
                 return mergedRewards;
             }
 
-
-        }
-
     }
+
+}
 
     
 

@@ -11,7 +11,7 @@ using OnlytestTRPG; //나만 추가
 namespace OnlytestTRPG
 {
 
-    internal class Equipment
+    public class Equipment //public 으로 수정 -팀장- select character 접근
     {
         public string EquipmentName;
         public string EquipmentType;
@@ -20,7 +20,7 @@ namespace OnlytestTRPG
         public bool IsEquiped = false;
         Random random = new Random();
 
-        public Equipment(string equipmentName, string equipmentType, int equipmentStat, int sellPrice)
+        public Equipment(string equipmentName, string equipmentType, int equipmentStat, int sellPrice) //♥장비 장비에는 이름 타입 스탯의 그게있음셀 프라이스도 있네
         {
             EquipmentName = equipmentName;
             EquipmentType = equipmentType;
