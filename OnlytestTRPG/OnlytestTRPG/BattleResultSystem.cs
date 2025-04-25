@@ -103,15 +103,15 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         public BattleResult Battle(Reward reward, List<string> defeatedTypes, out ResultChoice postChoice)
         {
-            int hpBeforeFight = Character.player.CurrentHP;
+            int hpBeforeFight = status.CurrentHP;
 
             var rewardList = CollectAllRewards(defeatedTypes);
 
-            bool victory = Character.player.CurrentHP > 0;
+            bool victory = status.CurrentHP > 0;
             if (victory)
                 reward.AddRewards(rewardList);
 
-            int damageTaken = Character.player.maxmaxHP - Character.player.CurrentHP; //♥추가마지막
+            int damageTaken = status.TotalHP - status.CurrentHP; //♥추가마지막
 
             postChoice = ShowResult(
                 defeatedTypes.Count,
@@ -127,7 +127,7 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         // 결과 화면                                                     
         // --------------------------------------------------------------
-        public static int damageTaken = Character.player.maxmaxHP - Character.player.CurrentHP; //♥추가마지막   수정
+        public static int damageTaken = status.TotalHP - status.CurrentHP; //♥추가마지막   수정
         public static ResultChoice ShowResult(int killCount, int damageTaken,   //♥추가마지막 스태틱추가.
                                    List<Reward> rewardList, BattleResult result)
             {
@@ -139,7 +139,7 @@ namespace OnlytestTRPG
                     Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n"); 
 
                 Console.WriteLine("[캐릭터]");
-            Console.WriteLine($"HP {Character.player.maxmaxHP} -> {Character.player.CurrentHP} (-{damageTaken})\n");
+            Console.WriteLine($"HP {status.TotalHP} -> {status.CurrentHP} (-{damageTaken})\n");
 
             Console.WriteLine("[획득 보상]");   //여기 이프문추가함
                 if (result == BattleResult.Victory)
@@ -152,8 +152,8 @@ namespace OnlytestTRPG
 
                     if (reward.EquipmentName == "Gold")                                                                 //골드추가 시작
                     {
-                        MainSpace.status.basicGold += reward.Amount;
-                        Console.WriteLine($"Gold +{reward.Amount} (보유 골드: {MainSpace.status.basicGold})");          //골드추가 종료
+                        MainSpace.status.BasicGold += reward.Amount;
+                        Console.WriteLine($"Gold +{reward.Amount} (보유 골드: {MainSpace.status.BasicGold})");          //골드추가 종료
                     }
 
                     else if (reward.EquipmentName == "포션")

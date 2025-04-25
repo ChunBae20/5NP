@@ -33,19 +33,19 @@ namespace OnlytestTRPG
 
     public class Quest : MainSpace
     {
-        public static List<QuestInfo> questList = new List<QuestInfo>()
+        public static List<QuestInfo> questList = new List<QuestInfo>() // 퀘스트 리스트
         {
             new QuestInfo("마을에서 아이템 구매",
                 "이봐! 모험을 떠나는것도 좋지만 아무런 준비 없이 모험을 떠날건 아니지?\r\n마을에는 상점이 있다네, 그러니 상점으로 가서 필요한 장비를 구매해보게!",
                 "상점에서 아이템을 구매해보자",
                 0,
-                1, new string[] { "500000G" },
+                1, new string[] { "500000G" , "100000G" },
                 "아이템 구매")
 
 
         };
 
-        public void QuestOption()
+        public void QuestOption() //퀘스트 선택
         {
             Console.Clear();
             Console.WriteLine("Quest!!");
@@ -63,7 +63,7 @@ namespace OnlytestTRPG
 
         }
 
-        public void QuestSelect(QuestInfo selectQuest)
+        public void QuestSelect(QuestInfo selectQuest) //선택한 퀘스트 수락/거절
         {
             Console.Clear();
             Console.WriteLine("Quest!!");
@@ -101,15 +101,15 @@ namespace OnlytestTRPG
 
         }
 
-        public void UpdateQuestProcess(string questProcess, QuestInfo selectQuest)
+        public void UpdateQuestProcess(string questProcess, QuestInfo selectQuest) // 퀘스트 진행 완료 여부 확인 시스템
         {
             foreach (var quest in questList)
             {
-                if (!quest.IsFinished && quest.IsSelected && quest.QuestProcess == questProcess)
+                if (!quest.IsFinished && quest.IsSelected && quest.QuestProcess == questProcess)  //퀘스트 진행
                 {
                     quest.QuestProgress++;
 
-                    if (quest.QuestProgress >= quest.QuestGoal)
+                    if (quest.QuestProgress >= quest.QuestGoal) // 퀘스트 진행 완료 시
                     {
                         quest.QuestProgress = quest.QuestGoal;
                         Console.WriteLine($"\n[퀘스트 완료] {quest.QuestName}");
@@ -120,7 +120,7 @@ namespace OnlytestTRPG
             }
         }
 
-        public void QuestSuccess(QuestInfo selectQuest)
+        public void QuestSuccess(QuestInfo selectQuest) // 퀘스트 성공 UI
         {
             Console.Clear();
             Console.WriteLine("Quest!!");
@@ -141,20 +141,19 @@ namespace OnlytestTRPG
             }
         }
 
-        public void Reward(QuestInfo selectQuest)
+        public void Reward(QuestInfo selectQuest) // 퀘스트 보상 적용 시스템
         {
-            Console.Clear();
             Console.WriteLine("보상을 받았습니다!");
 
-            foreach (var reward in selectQuest.QuestReward)
+            foreach (var reward in selectQuest.QuestReward) //각 보상 적용(장비 보상 관련 적용하려했으나 포기)
             {
                 if (reward.Contains("G"))
                 {
-                    string numberPart = new string(reward.Where(char.IsDigit).ToArray());
+                    string numberPart = new string(reward.Where(char.IsDigit).ToArray()); // 숫자만 추출
                     int goldAmount = int.Parse(numberPart);
 
-                    status.basicGold += goldAmount;
-                    Console.WriteLine($"+{goldAmount}G (총 보유: {status.basicGold})");
+                    status.BasicGold += goldAmount; // 수당 지급
+                    Console.WriteLine($"+{goldAmount}G (총 보유: {status.BasicGold})");
                     if(selectQuest.IsFinished == true)
                     {
                         selectQuest.IsSelected = false;

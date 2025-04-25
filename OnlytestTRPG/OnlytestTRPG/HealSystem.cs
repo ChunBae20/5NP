@@ -14,11 +14,17 @@ namespace OnlytestTRPG
         {
             HealItem.potion = potion;
         }
+        public void AddPotion(int count)
+        {
+            potion += count;
+        }
 
-        public void Heal()
+        public void Heal() // 회복 시스템
         {
             while (true)
             {
+                potion = 3;
+
                 Console.Clear();
                 Console.WriteLine("회복");
                 Console.WriteLine($"포션을 사용하면 체력을 30 회복 할 수 있습니다. (남은 포션 : {potion})");
@@ -32,7 +38,7 @@ namespace OnlytestTRPG
                 if (num == 1 && potion > 0)
                 {
                     potion -= 1;
-                    Character.player.CurrentHP = Math.Min(Character.player.CurrentHP + 30, status.TotalHP);
+                    status.CurrentHP = Math.Min(status.CurrentHP + 30, status.TotalHP); // 둘 중 더 작은 값 가져오기
                     Console.WriteLine("\n회복을 완료했습니다.");
                 }
                 else Console.WriteLine("\n포션이 부족합니다.");
@@ -41,12 +47,5 @@ namespace OnlytestTRPG
                 Thread.Sleep(3000);
             }
         }
-
-        public void AddPotion(int count)  //힐 아이템 어륨 더이상 머리에 안돌감 걍 추감 팀장이겟음
-        {
-            potion += count;
-        }
-                                            //여기까지
-
     }
 }
