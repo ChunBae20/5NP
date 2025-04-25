@@ -106,13 +106,16 @@ namespace OnlytestTRPG
 
             Console.Clear();
 
-            Console.WriteLine(" 테크니컬 리더 님 감사합니다. ");
-            Console.WriteLine(" 님 감사합니다. ");
-            Console.WriteLine(" 님 감사합니다.");
-            Console.WriteLine(" 님 감사합니다.");
+            Console.WriteLine("********************************");
+            Console.WriteLine("*  이주현 팀장님 감사합니다.  *");
+            Console.WriteLine("********************************");
+            Console.WriteLine("★ 윤지민 발표자님 ★ 감사합니다.");
+            Console.WriteLine(" 김지수님 감사합니다. ");
+            Console.WriteLine(" 최용선님 감사합니다.");
+            Console.WriteLine(" 민종곤님 감사합니다.");
             Console.WriteLine("  ");
 
-            Console.WriteLine(" 1조의 팀원들입니다. \n아무 키누르면 프로그램 종료");
+            Console.WriteLine(" 사랑스런 1조의 팀원들입니다. \n아무 키누르면 프로그램 종료");
             Console.ReadKey();
 
 

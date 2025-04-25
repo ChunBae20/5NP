@@ -14,64 +14,54 @@ namespace OnlytestTRPG
 {
 
 
-    
-        // public static void BattleUI() { 
 
-        enum GameScene { Start, Battle }
-        enum BattleResult { Victory, Defeat }
-        enum ResultChoice { GoStart, GoNextStage }
+    // public static void BattleUI() { 
 
-        public class Reward
+    enum GameScene { Start, Battle }
+    enum BattleResult { Victory, Defeat }
+    enum ResultChoice { GoStart, GoNextStage }
+
+    public class Reward
+    {
+        public string EquipmentName { get; }
+        public int Amount { get; }
+        public Dictionary<string, int> Inventory { get; } = new(); //인벤토리를 따온다고? 애드는 어딧지
+
+        public Reward(string name, int amount)
         {
-            public string EquipmentName { get; }
-            public int Amount { get; }
-            public Dictionary<string, int> Inventory { get; } = new(); //인벤토리를 따온다고? 애드는 어딧지
-
-            public Reward(string name, int amount)
-            {
-                EquipmentName = name;
-                Amount = amount;
-            }
-
-            public void AddRewards(IEnumerable<Reward> rewards)
-            {
-                foreach (var reward in rewards)
-                {
-                    if (!Inventory.ContainsKey(reward.EquipmentName))
-                        Inventory[reward.EquipmentName] = 0;
-                    Inventory[reward.EquipmentName] += reward.Amount;
-                }
-            }
-        }
-        public class MonsterReward
-        {
-            public string MonsterType;
-            public Func<Reward> GetReward;
-            public MonsterReward(string type, Func<Reward> rewardFunc)
-            {
-                MonsterType = type;
-                GetReward = rewardFunc;
-            }
+            EquipmentName = name;
+            Amount = amount;
         }
 
-
-
-
-        // ==================================================================
-        //  Program – 메인 루프, 전투, 결과 UI                                
-        // ==================================================================
-
-
-
-
-        internal class Program : MainSpace
+        public void AddRewards(IEnumerable<Reward> rewards)
         {
+            foreach (var reward in rewards)
+            {
+                if (!Inventory.ContainsKey(reward.EquipmentName))
+                    Inventory[reward.EquipmentName] = 0;
+                Inventory[reward.EquipmentName] += reward.Amount;
+            }
+        }
+    }
+    public class MonsterReward
+    {
+        public string MonsterType;
+        public Func<Reward> GetReward;
+        public MonsterReward(string type, Func<Reward> rewardFunc)
+        {
+            MonsterType = type;
+            GetReward = rewardFunc;
+        }
+    }
 
-            BattleScene battleScene = new BattleScene();
-            // --------------------------------------------------------------
-            // 몬스터 드롭 테이블                                            
-            // --------------------------------------------------------------
-            static readonly Dictionary<string, List<Reward>> dropTable = new()
+    internal class Program : MainSpace
+    {
+
+        BattleScene battleScene = new BattleScene();
+        // --------------------------------------------------------------
+        // 몬스터 드롭 테이블                                            
+        // --------------------------------------------------------------
+        static readonly Dictionary<string, List<Reward>> dropTable = new()
         {
             {"독고벌레"    , new(){ new("Gold",50) } },
             {"바위게"    , new(){ new("Gold",100)} },
@@ -82,8 +72,8 @@ namespace OnlytestTRPG
             {"던전 악령"    , new(){ new("Gold",500), new("포션", 1), new("낡은 검", 1) } },
         };
 
-        
-          static List<Item> itemList = new List<Item>()
+
+        static List<Item> itemList = new List<Item>()
         {
            new("녹슨 검", "공격력", 2, 500),
            new("녹슨 갑옷", "빙어력", 2, 500),
@@ -95,7 +85,7 @@ namespace OnlytestTRPG
            new("청동 지팡이", "공격력", 2, 700)
         };
 
-        
+
 
         // 배틀 종료
         // --------------------------------------------------------------
@@ -111,7 +101,7 @@ namespace OnlytestTRPG
             if (victory)
                 reward.AddRewards(rewardList);
 
-            int damageTaken = status.TotalHP - status.CurrentHP; //♥추가마지막
+            int damageTaken = status.TotalHP - status.CurrentHP;
 
             postChoice = ShowResult(
                 defeatedTypes.Count,
@@ -127,26 +117,23 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         // 결과 화면                                                     
         // --------------------------------------------------------------
-        public static int damageTaken = status.TotalHP - status.CurrentHP; //♥추가마지막   수정
-        public static ResultChoice ShowResult(int killCount, int damageTaken,   //♥추가마지막 스태틱추가.
+        public static int damageTaken = status.TotalHP - status.CurrentHP;
+        public static ResultChoice ShowResult(int killCount, int damageTaken,
                                    List<Reward> rewardList, BattleResult result)
-            {
-                Console.Clear();
-                Console.WriteLine("Battle - Result\n");
-                Console.WriteLine((result == BattleResult.Victory ? "Victory" : "You Lose") + "\n");
+        {
+            Console.Clear();
+            Console.WriteLine("Battle - Result\n");
+            Console.WriteLine((result == BattleResult.Victory ? "Victory" : "You Lose") + "\n");
 
-                if (result == BattleResult.Victory)
-                    Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n"); 
+            if (result == BattleResult.Victory)
+                Console.WriteLine($"몬스터 {killCount}마리를 처치했습니다.\n");
 
-                Console.WriteLine("[캐릭터]");
+            Console.WriteLine("[캐릭터]");
             Console.WriteLine($"HP {status.TotalHP} -> {status.CurrentHP} (-{damageTaken})\n");
 
-            Console.WriteLine("[획득 보상]");   //여기 이프문추가함
-                if (result == BattleResult.Victory)
-                {
-                // foreach (var reward in rewardList)     //♥골드반복 지움
-                //   Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");♥골드반복 지움
-
+            Console.WriteLine("[획득 보상]");
+            if (result == BattleResult.Victory)
+            {
                 foreach (var reward in rewardList)
                 {
 
@@ -159,90 +146,68 @@ namespace OnlytestTRPG
                     else if (reward.EquipmentName == "포션")
                     {
                         MainSpace.healItem.AddPotion(reward.Amount);
-                        Console.WriteLine($"포션 +{reward.Amount} (총 {HealItem.potion}개 보유)");
+                        Console.WriteLine($"포션 +{reward.Amount} (총 {HealItem.Potion}개 보유)");
                     }
 
                     var itemData = itemList.FirstOrDefault(item => item.ItemName == reward.EquipmentName);
 
                     if (itemData != null)
                     {
-                       
+
                         for (int i = 0; i < reward.Amount; i++)
                         {
                             var newEquip = new Equipment(itemData.ItemName, itemData.ItemType, itemData.ItemStat, itemData.Price);
                             Inventory.equipment.Add(newEquip);
                         }
 
-                        Console.WriteLine($"{reward.EquipmentName} x{reward.Amount} (인벤토리에 추가됨)");//x는 그냥 관상용임 문법아니니까 안심하셈
+                        Console.WriteLine($"{reward.EquipmentName} x{reward.Amount} (인벤토리에 추가됨)");
                     }
-
-                    /* //♥골드반복 지움
-                    else
-                    {
-                        // 골드나 포션 같은 일반 보상 출력
-                        Console.WriteLine($"{reward.EquipmentName} +{reward.Amount}");
-                    }
-                    */
                 }
 
 
             }
-                else
-                    Console.WriteLine("없음");
-                Console.WriteLine();
-                // ─────────────────────────────────────────────
-                // 선택지 출력 (승리/패배에 따라 다르게)
-                // ─────────────────────────────────────────────
-                if (result == BattleResult.Victory)
-                {
-                    Console.WriteLine("0. 시작 화면으로");
-                    int num = Input(0, 1);
-                    if (num == 0) MainMenu();
-                    return ResultChoice.GoStart;
-                }
+            else Console.WriteLine("없음");
 
-                else
-                {
-                    Console.WriteLine("0. 시작 화면으로");
-                    int num = Input(0, 0);           // 아무 키 대기
-                    if (num == 0) MainMenu();
-                    return ResultChoice.GoStart;
-                }
-            }
+            Console.WriteLine("\n0. 시작 화면으로");
+            int num = Input(0, 0);
+            if (num == 0) MainMenu();
+            return ResultChoice.GoStart;
+
+        }
 
 
-            // --------------------------------------------------------------
-            // 드롭 리스트 합산                                               
-            // --------------------------------------------------------------
-            static List<Reward> CollectAllRewards(IEnumerable<string> defeatedTypes)
+        // --------------------------------------------------------------
+        // 드롭 리스트 합산                                               
+        // --------------------------------------------------------------
+        static List<Reward> CollectAllRewards(IEnumerable<string> defeatedTypes)
+        {
+            var totals = new Dictionary<string, int>();
+
+            foreach (var monsterType in defeatedTypes)
             {
-                var totals = new Dictionary<string, int>();
+                if (!dropTable.TryGetValue(monsterType, out var dropList))
+                    continue;
 
-                foreach (var monsterType in defeatedTypes)
+                foreach (var reward in dropList)
                 {
-                    if (!dropTable.TryGetValue(monsterType, out var dropList))
-                        continue;
-
-                    foreach (var reward in dropList)
-                    {
-                        if (!totals.ContainsKey(reward.EquipmentName))
-                            totals[reward.EquipmentName] = 0;
-                        totals[reward.EquipmentName] += reward.Amount;
-                    }
+                    if (!totals.ContainsKey(reward.EquipmentName))
+                        totals[reward.EquipmentName] = 0;
+                    totals[reward.EquipmentName] += reward.Amount;
                 }
-
-                var mergedRewards = new List<Reward>();
-                foreach (var itemEntry in totals)
-                    mergedRewards.Add(new Reward(itemEntry.Key, itemEntry.Value));
-
-                return mergedRewards;
             }
+
+            var mergedRewards = new List<Reward>();
+            foreach (var itemEntry in totals)
+                mergedRewards.Add(new Reward(itemEntry.Key, itemEntry.Value));
+
+            return mergedRewards;
+        }
 
     }
 
 }
 
-    
+
 
 
 
