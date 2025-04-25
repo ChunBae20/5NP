@@ -2,7 +2,8 @@
 using System.Runtime.InteropServices;
 using OnlytestTRPG; //나만 추가
 
-
+namespace OnlytestTRPG
+{
 // 자식 : 부모 힐아이템 인벤토리 다수정
 public class MainSpace                        
 {
@@ -10,11 +11,10 @@ public class MainSpace
 
     static void Main(string[] args)
     {
-
-
-        MainMenu();                       
-
-
+            
+            Character.ShowIntro();
+            MainMenu();
+            
 
     }
 
@@ -42,7 +42,7 @@ public class MainSpace
             Console.WriteLine("6. 전투 시작");
             Console.WriteLine("원하시는 행동을 입력해주세요.....");
 
-            string Maininput = Console.ReadLine();
+            string? Maininput = Console.ReadLine();
 
             switch (Maininput)
             {
@@ -62,7 +62,8 @@ public class MainSpace
                     store.EnterStore();
                     break;
                 case "6":
-                    BattleScene();
+                        battle.SetData();
+                        battle.DisplayBattleScene();
                     return;
                 case "team5NP":
                     TeamMembers();
@@ -75,7 +76,7 @@ public class MainSpace
             }
         }
     }
-
+    public static BattleScene battle = new BattleScene();
     public static Store store = new Store();
     public static Quest quest = new Quest();
     public static HealItem healItem = new HealItem(3);
@@ -85,7 +86,8 @@ public class MainSpace
     static void StatusScene()
     {
 
-        //기본 체력부
+           // status.CurrentHP = status.TotalHP; 
+            //기본 체력부
         int basicstr = status.basicSTR;
         int basicdef = status.basicDEF;
         int basicHP = status.basicHP;
@@ -93,9 +95,13 @@ public class MainSpace
 
         Console.Clear();
         Console.WriteLine(" 캐릭터의 정보가 표시됩니다.\n\n\n");
+        Console.WriteLine(" 이름 : "+status.name);
+        Console.WriteLine(" 직업 : " + status.job);
+
         Console.WriteLine("공격력 : " + basicstr + " (+ " + status.nowEquipSTR + ")");     // 기본 공력력10 (+장비 공격력)
         Console.WriteLine("방어력 : " + basicdef + " (+ " + status.nowEquipDEF + ")");      // 기본 방어력5  (+장비 방어력)
-        Console.WriteLine("체력 :" + basicHP + " ( " + status.nowEquipHP + ")");             // 기본 체력100  (+장비 체력)
+        Console.WriteLine("현재 체력 / 최대 체력 : "+ Character.player.CurrentHP+ " / "+ Character.player.maxmaxHP ); 
+        Console.WriteLine("기본 체력 / 장비 체력 : " + basicHP + " ( " + status.nowEquipHP + ")");             // 기본 체력100  (+장비 체력)
         Console.WriteLine("Gold : " + basicGold);
 
     backagain:
@@ -103,7 +109,7 @@ public class MainSpace
         Console.WriteLine(" 0. 나가기\n\n\n");
 
         string gotoStartScene = "0";
-        string gotoexit = Console.ReadLine();
+        string? gotoexit = Console.ReadLine();
         if (gotoexit == gotoStartScene)
         {
             MainMenu();                         
@@ -132,13 +138,13 @@ public class MainSpace
         }
     }
 
-    static void BattleScene()
+    /*static void BattleScene()
     {
         Console.Clear();
         Console.WriteLine("전투화면입니다. \n아무 키누르면 프로그램 종료");
         Console.ReadKey();
     }
-
+*/
     static void TeamMembers()
     {
 
@@ -155,5 +161,6 @@ public class MainSpace
 
 
 
+        }
     }
 }

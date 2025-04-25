@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\YS\\Downloads\\5NP-main\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {}
+    "C:\\Users\\YS\\Downloads\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {}
   },
   "projects": {
-    "C:\\Users\\YS\\Downloads\\5NP-main\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {
+    "C:\\Users\\YS\\Downloads\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\YS\\Downloads\\5NP-main\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+        "projectUniqueName": "C:\\Users\\YS\\Downloads\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
         "projectName": "OnlytestTRPG",
-        "projectPath": "C:\\Users\\YS\\Downloads\\5NP-main\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
+        "projectPath": "C:\\Users\\YS\\Downloads\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\OnlytestTRPG.csproj",
         "packagesPath": "C:\\Users\\YS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\YS\\Downloads\\5NP-main\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
+        "outputPath": "C:\\Users\\YS\\Downloads\\5NP-main\\OnlytestTRPG\\OnlytestTRPG\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,0 +1,262 @@
+﻿using System.Collections.Generic;
+using System.Numerics;
+using System.Threading.Tasks.Dataflow;
+
+namespace OnlytestTRPG
+{
+    
+    
+    public class BattleScene : MainSpace
+    {
+        
+        private static Character? player;
+        private static Item[]? itemDb;
+        private static Enemy[]? enemyDb;
+        static Random random = new Random();
+        //battle!
+        //적 몬스터 출현 1~4마리 출현
+        //[내정보]
+        //1. 공격
+        //외에는 잘못된 입력
+        public void DisplayBattleScene()
+        {
+
+            EnemyGenerate();
+
+            Console.WriteLine();
+            ShowEnemy(currentEnemies, false);
+            Console.WriteLine();
+            BattleCharacterInfo();
+            Console.WriteLine("1.공격");
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요");
+            int result = CheckInput(0,1);
+            switch (result)
+            {
+                case 1:
+                    JoinBattleScene();
+                    break;
+            }
+        }
+
+        public static void JoinBattleScene()
+        {
+            bool allDead = true;
+            foreach (Enemy enemy in currentEnemies)
+            {
+                if (!enemy.IsDead)
+                {
+                    allDead = false;
+                    break;
+                }
+            }
+
+            if (allDead)
+            {
+                Console.WriteLine("모든 적을 처치했습니다!");
+
+                // 실제 죽은 몬스터 이름만 추출
+                List<string> defeated = new List<string>();
+                foreach (var enemy in currentEnemies)
+                {
+                    if (enemy.IsDead)
+                        defeated.Add(enemy.Name);
+                }
+
+                // 보상용 리워드 객체 생성
+                Reward reward = new Reward("Gold", 0);
+                OnlytestTRPG.Program program = new OnlytestTRPG.Program();
+                program.Battle(reward, defeated, out ResultChoice choice);
+
+                return;
+            }
+
+            Console.Clear();
+            Console.WriteLine();
+            ShowEnemy(currentEnemies, true);
+            Console.WriteLine();
+            BattleCharacterInfo();
+            Console.WriteLine();
+            Console.WriteLine("공격할 적을 입력해주세요");
+            int result = CheckInput(1, currentEnemies.Count);
+
+            switch (result)
+            {
+                default:
+                    int EnemyIdx = result - 1;
+                    Enemy targetEnemy = currentEnemies[EnemyIdx];
+
+                    if (targetEnemy.IsDead)
+                    {
+                        Console.WriteLine("이미 죽어있는 적입니다.");
+                        JoinBattleScene(); // 재귀로 다시 시도
+                    }
+                    else
+                    {
+                        int damage = CalculateDamage(status.basicSTR + status.nowEquipSTR, 0, 0, status.basicCRT + status.nowEquipCRT);
+                        Console.WriteLine($"{targetEnemy.Name}에게 {damage}의 피해를 입혔습니다.");
+
+                        if (damage >= targetEnemy.CurrentHp)
+                        {
+                            targetEnemy.CurrentHp = 0;
+                            targetEnemy.IsDead = true;
+                            Console.WriteLine($"{targetEnemy.Name}이(가) 죽었습니다.");
+                        }
+                        else
+                        {
+                            targetEnemy.CurrentHp -= damage;
+                        }
+                    }
+
+                    EnemyAttackPhase();
+
+                    if (Character.player.CurrentHP > 0)
+                    {
+                        Console.WriteLine();
+                        JoinBattleScene();
+                    }
+                    break;
+            }
+
+        }
+
+        public void SetData()
+        {
+        //    player = new Character(level: 1, name: "Chad", job: "전사", atk: 10, def: 5, maxHp: 100, gold: 10000);
+        //    itemDb = new Item[]
+        //    {
+        //        new Item(name:"수련자의 갑옷",type:1,value:5, desc:"수련에 도움을 주는 갑옷입니다.", price:1000),
+        //        new Item(name:"무쇠 갑옷",type:1,value:9, desc:"무쇠로 만들어져 튼튼한 갑옷입니다..", price:2000),
+        //        new Item(name:"스파르타의 갑옷",type:1,value:15, desc:"수련에 도움을 주는 갑옷입니다.", price:3500),
+        //        new Item(name:"낡은 검",type:0,value:2, desc:"쉽게 볼 수 있는 낡은 검입니다.", price:600),
+        //        new Item(name:"청동 도끼",type:0,value:5, desc:"어디선가 사용됐던거 같은 도끼입니다.", price:1500),
+        //        new Item(name:"스파르타의 창",type:0,value:7, desc:"스파르타의 전사들이 사용했다는 전설의 창입니다.", price:2500)
+
+        //    };
+             enemyDb= new Enemy[]
+            {
+                new Enemy(name:"독고벌레", level:2, atk: 5, maxHp: 15),
+                new Enemy(name:"바위게", level:3, atk: 9, maxHp: 10),
+                new Enemy(name:"늑대 고블린", level:4, atk: 7, maxHp:20),
+                new Enemy(name:"칼날구울", level:5, atk: 8, maxHp:25),
+                new Enemy(name:"핏빛 리자드맨", level:8, atk: 8, maxHp:30),
+                new Enemy(name:"쌍둥이 골렘", level:10, atk: 10, maxHp:70)
+            };
+    }
+    static List<Enemy> currentEnemies = new List<Enemy>();
+        static void EnemyGenerate()
+        {
+            int enemyCount = random.Next(1, 5); //1~4마리
+            currentEnemies.Clear();
+
+            for (int i = 0; i < enemyCount; i++)
+            {
+                Enemy template = enemyDb[random.Next(enemyDb.Length)];
+                Enemy enemyIstance = new Enemy(template.Name, template.Level, template.Atk, template.MaxHp);
+                currentEnemies.Add(enemyIstance);
+            }
+        }
+        static void ShowEnemy(List<Enemy> enemies,bool showIdx)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Battle!");
+            Console.ResetColor();
+            Console.WriteLine();
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                string displayIdx = showIdx ? $"{i + 1}. " : "";
+                Console.WriteLine($"{displayIdx}{enemies[i].EnemyInfoText()}");
+            }
+            Console.WriteLine();
+        }
+
+        static int CheckInput(int min, int max)
+        {
+            int result;
+            while (true)
+            {
+                string input = Console.ReadLine();
+                bool isNumber = int.TryParse(input, out result);
+                if (isNumber)
+                {
+                    if (result >= min && result <= max)
+                        return result;
+                }
+                Console.WriteLine("잘못된 입력입니다!!!!");
+            }
+
+        }
+
+
+        static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
+        {
+            int errorRange = (int)Math.Ceiling(baseAtk * 0.1);
+            int min = baseAtk - errorRange;
+            int max = baseAtk + errorRange;
+            int rawDamage = random.Next(min, max + 1) - baseDef;
+
+            int avoidPercent = random.Next(0, 100);
+            if (avoidPercent < baseAvd)
+            {
+                Console.WriteLine("공격을 회피하였습니다.");
+                return 0;
+
+            }
+            bool isCritical = false;
+            int criticalPercent = random.Next(0, 100);
+            if (criticalPercent < baseCrt)
+            {
+                rawDamage = rawDamage * 2; //critcalValue; //크리티컬 데미지 계수 추가?(직업별, 도적이나 궁수는 크뎀높게+아이템에도 크리티컬 계수추가)
+                isCritical = true;
+                Console.WriteLine("크리티컬!");
+            }
+            int finalDamage = rawDamage - baseDef;
+            if (finalDamage < 1)
+            {
+                finalDamage = 1;
+            }
+            return finalDamage;
+        }
+
+
+
+        static void EnemyAttackPhase()
+        {
+            foreach (var enemy in currentEnemies)
+            {
+                if(enemy.IsDead) continue;
+                Console.WriteLine($"{enemy.Name}이 공격 대기중");
+                Console.WriteLine("0.눌러 진행");
+                int wait = CheckInput(0,0);
+                int enemyDamage = CalculateDamage(enemy.Atk, status.basicDEF + status.nowEquipDEF, status.basicAVD + status.nowEquipAVD, 0);
+                Console.WriteLine($"{enemy.Name}이(가) {player}에게 {enemyDamage}의 피해를 입힘");
+
+                Character.player.CurrentHP -= enemyDamage;
+
+                if (Character.player.CurrentHP <= 0)
+                {
+                    Character.player.CurrentHP = 0;
+                    Console.WriteLine($"{player}이(가) 쓰러졌습니다.");
+                    Console.WriteLine("GameOver");
+                    return;
+
+                }
+            }
+
+        }
+
+
+        static void BattleCharacterInfo()
+        {
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{status.level} {player}({status.job})");
+            Console.Write($"HP {Character.player.CurrentHP}/" );//아 이거 이거였네 100고정이아니라 걍 
+            Console.WriteLine(Character.player.maxmaxHP);
+        }
+
+
+
+        
+        }
+    }
+

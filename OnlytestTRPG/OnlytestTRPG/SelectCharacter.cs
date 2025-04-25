@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace OnlytestTRPG
 {
-    enum JobType                                               
+   public  enum JobType              //public추가 -팀장-                                 
     {
+        
         Warrior = 1,
         Mage = 2,
         Archer = 3
     }
-    public class Character
+    public class Character : MainSpace
     {
-        static Player player = new Player();     
+        public static Player player = new Player();     
        
 
         public static void ShowIntro()
@@ -31,12 +32,19 @@ namespace OnlytestTRPG
             Console.Write("캐릭터 이름을 입력하세요: ");
             player.Name = Console.ReadLine();
 
+            SelectJob();
+        }
+
+        static void SelectJob()
+        { 
             Console.WriteLine("\n직업을 선택하세요:");
             Console.WriteLine("1. 전사 (공격력 15 / 방어력 10 / 체력 120)");
             Console.WriteLine("2. 마법사 (공격력 25 / 방어력 5 / 체력 80)");
             Console.WriteLine("3. 궁수 (공격력 18 / 방어력 7 / 체력 100)");
             Console.Write("선택 (1~3): ");
-            string input = Console.ReadLine();
+            string? input = Console.ReadLine();
+
+
 
             switch (input)
             {
@@ -45,22 +53,29 @@ namespace OnlytestTRPG
                     player.Attack = 15;
                     player.Defense = 10;
                     player.HP = 120;
+                    player.CurrentHP = player.HP + status.nowEquipHP;
+                    player.maxmaxHP = player.HP + status.nowEquipHP; //-팀장 -
                     break;
                 case "2":
                     player.Job = JobType.Mage;
                     player.Attack = 25;
                     player.Defense = 5;
                     player.HP = 80;
+                    player.CurrentHP = player.HP + status.nowEquipHP;//추가 1번에만 넣었고 2번안넣어서 아마 지금까지 적용이 안됐을거임-팀장-
+                    player.maxmaxHP = player.HP + status.nowEquipHP;//추가-팀장-
+
                     break;
                 case "3":
                     player.Job = JobType.Archer;
                     player.Attack = 18;
                     player.Defense = 7;
                     player.HP = 100;
+                    player.CurrentHP = player.HP + status.nowEquipHP;//추가-팀장-
+                    player.maxmaxHP = player.HP + status.nowEquipHP;//추가-팀장-
                     break;
                 default:
                     Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
-                    CreateCharacter(); // 재귀 호출
+                    SelectJob(); // 재귀 호출
                     return;
             }
 
@@ -72,18 +87,20 @@ namespace OnlytestTRPG
             Console.WriteLine($"\n{player.Job} 직업의 {player.Name}님으로 게임을 시작합니다!");
         }
 
-        private class Player
+        public class Player
         {
             public int Level = 1;
             public string Name;
             public JobType Job; 
-            public int Attack;
-            public int Defense;
-            public int HP;
+            public int Attack;//basicATK 이거를 적용하려면 main의 스테이터스에 이걸 적용해야하잖아 애초에 스테이터스를 받아오게 해ㅣ야했느데 너무 멀리갔다.
+            public int Defense;  //basicDEF
+            public int HP;   //basicHP
             public int Gold;
+            public int CurrentHP;
+            public int maxmaxHP; // 최대체력에 계산 안 넣도록커렌트랑 계산식안겹치는게 포인트 -팀장-
 
             public List<Equipment> Inventory = new List<Equipment>();    
-            public Equipment EquippedItem = null;
+            public Equipment EquippedItem= null;
 
         }
     }
