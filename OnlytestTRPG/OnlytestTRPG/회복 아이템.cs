@@ -25,7 +25,6 @@ namespace OnlytestTRPG
                 Console.WriteLine("\n\n1. 사용하기");
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine("\n원하시는 행동을 입력해주세요");
-                Console.Write(">> ");
 
                 int num = Input(0, 1);
 

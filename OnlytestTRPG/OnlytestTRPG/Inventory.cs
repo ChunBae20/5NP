@@ -57,7 +57,6 @@ namespace OnlytestTRPG
             Console.WriteLine("\n1. 장착");
             Console.WriteLine("0. 나가기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
-            Console.Write(">> ");
 
             int num = Input(0, 1);   //int num = MainSpace.Input(0, 1);  
 
@@ -83,7 +82,6 @@ namespace OnlytestTRPG
 
                 Console.WriteLine("\n0. 나가기");
                 Console.WriteLine("\n원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
 
 
                 int num = Input(0, equipment.Count);

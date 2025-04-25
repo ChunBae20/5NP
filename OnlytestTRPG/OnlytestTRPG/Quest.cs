@@ -56,7 +56,6 @@ namespace OnlytestTRPG
             }
 
             Console.WriteLine("\n\n원하시는 퀘스트를 선택해주세요.");
-            Console.Write(">> ");
 
             int num = Input(1, questList.Count);
 
@@ -76,7 +75,6 @@ namespace OnlytestTRPG
             Console.WriteLine("\n\n1. 수락");
             Console.WriteLine("2. 거절");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
-            Console.Write(">> ");
 
             int num = Input(1, 2);
 
@@ -134,7 +132,6 @@ namespace OnlytestTRPG
             Console.WriteLine($"\n{string.Join("\n", selectQuest.QuestReward)}");
             Console.WriteLine("\n\n1. 보상 받기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
-            Console.Write(">> ");
 
             int num = Input(1, 1);
 
