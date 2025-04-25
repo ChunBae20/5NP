@@ -53,8 +53,14 @@ namespace OnlytestTRPG
 
         public static List<Item> itemList = new List<Item>()
         {
-            new("낡은 검", "공격력", 2, 500),
-            new("낡은 옷", "방어력", 2, 500)
+            new("녹슨 검", "공격력", 2, 500),
+            new("녹슨 갑옷", "빙어력", 2, 500),
+            new("단궁", "공격력", 2, 500),
+            new("나무 지팡이", "공격력", 2, 500),
+            new("철제 검", "공격력", 4, 700),
+            new("일반 갑옷", "방어력", 4, 700),
+            new("복합궁", "공격력", 4, 700),
+            new("청동 지팡이", "공격력", 4, 700)
         };
 
         public void EnterStore()

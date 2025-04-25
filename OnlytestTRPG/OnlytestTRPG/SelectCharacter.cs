@@ -30,8 +30,13 @@ namespace OnlytestTRPG
         static void CreateCharacter()
         {
             Console.Write("캐릭터 이름을 입력하세요: ");
-            player.Name = Console.ReadLine() ;
+            player.Name = Console.ReadLine();
 
+            SelectJob();
+        }
+
+        static void SelectJob()
+        { 
             Console.WriteLine("\n직업을 선택하세요:");
             Console.WriteLine("1. 전사 (공격력 15 / 방어력 10 / 체력 120)");
             Console.WriteLine("2. 마법사 (공격력 25 / 방어력 5 / 체력 80)");
@@ -70,11 +75,9 @@ namespace OnlytestTRPG
                     break;
                 default:
                     Console.WriteLine("잘못된 선택입니다. 다시 입력하세요.");
-                    CreateCharacter(); // 재귀 호출
+                    SelectJob(); // 재귀 호출
                     return;
             }
-
-
 
             player.Level = 1;
             player.Gold = 100;
