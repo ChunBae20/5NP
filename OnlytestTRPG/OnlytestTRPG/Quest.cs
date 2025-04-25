@@ -35,9 +35,9 @@ namespace OnlytestTRPG
     {
         public static List<QuestInfo> questList = new List<QuestInfo>()
         {
-            new QuestInfo("마을을 위협하는 미니언 처치",
-                "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나?\r\n마을주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고!\r\n모험가인 자네가 좀 처치해주게!",
-                "미니언 5마리 처치",
+            new QuestInfo("마을에서 아이템 구매",
+                "이봐! 모험을 떠나는것도 좋지만 아무런 준비 없이 모험을 떠날건 아니지?\r\n마을에는 상점이 있다네, 그러니 상점으로 가서 필요한 장비를 구매해보게!",
+                "상점에서 아이템을 구매해보자",
                 0,
                 1, new string[] { "500000G" },
                 "아이템 구매")
