@@ -93,7 +93,7 @@ namespace OnlytestTRPG
         // --------------------------------------------------------------
         public BattleResult Battle(Reward reward, List<string> defeatedTypes, out ResultChoice postChoice)
         {
-            int hpBeforeFight = Character.player.CurrentHP;
+            // int hpBeforeFight = Character.player.CurrentHP;
 
             var rewardList = CollectAllRewards(defeatedTypes);
 
@@ -106,7 +106,6 @@ namespace OnlytestTRPG
             postChoice = ShowResult(
                 defeatedTypes.Count,
                 damageTaken,
-                
                 rewardList,
                 victory ? BattleResult.Victory : BattleResult.Defeat
             );
