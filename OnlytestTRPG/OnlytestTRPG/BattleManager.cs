@@ -237,10 +237,11 @@ namespace OnlytestTRPG
 
         void EnemyAttackPhase()
         {
-            foreach (var enemy in currentEnemies)
+            for (int i = 0; i < currentEnemies.Count; i++)//지민 수정 적의 마지막 공격 표시를 위해 foreach 에서 for문으로 수정
             {
+                var enemy = currentEnemies[i];
                 if (enemy.IsDead) continue;
-                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}이 공격 대기중");
+                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격 대기중");
                 Console.WriteLine("0.눌러 진행");
                 int wait = Input(0, 0);
                 Console.Clear();
@@ -271,8 +272,14 @@ namespace OnlytestTRPG
                     return; // 민종곤 전투 종료 로직 연결
 
                 }
+                if (i == currentEnemies.Count - 1)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("0. 눌러 내 턴으로");
+                    Input(0, 0);
+                    Console.Clear();    //지민 수정 (적의 마지막 공격이 표시되지않음)
+                }
 
-                //♥
             }
 
         }

@@ -36,7 +36,7 @@ namespace OnlytestTRPG
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n\n\n");
             Console.WriteLine("이름 : " + Name);
             Console.WriteLine("직업 : " + Job);
-            Console.WriteLine("공격력 : " + BasicHP + " ( + " + NowEquipSTR + " )");
+            Console.WriteLine("공격력 : " + BasicSTR + " ( + " + NowEquipSTR + " )");
             Console.WriteLine("방어력 : " + BasicDEF + " ( + " + NowEquipDEF + " )");
             Console.WriteLine("체력: " + CurrentHP + " / " + BasicHP + "( " + NowEquipHP + " )");
             Console.WriteLine("Gold : " + BasicGold);
