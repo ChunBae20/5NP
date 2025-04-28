@@ -21,7 +21,7 @@ namespace OnlytestTRPG
             ItemName = itemName;
             ItemType = itemType;
             ItemStat = itemStat;
-            Price = price * random.Next(80, 121) / 100; ;
+            Price = price * random.Next(80, 121) / 100;
         }
 
         public void BuyAndSell(bool withIndex = false, int index = 0) //아이템 구매 여부, 아이템 앞 숫자 생성/비생성, 아이템 List 출력
@@ -35,10 +35,10 @@ namespace OnlytestTRPG
     }
     public class Store : MainSpace
     {
-        public static List<Item> itemList = new List<Item>() // 아이템 List
+        public static List<Item> itemList = new() // 아이템 List
         {
             new("녹슨 검", "공격력", 2, 500),
-            new("녹슨 갑옷", "빙어력", 2, 500),
+            new("녹슨 갑옷", "방어력", 2, 500), // 오타 수정
             new("단궁", "공격력", 2, 500),
             new("나무 지팡이", "공격력", 2, 500),
             new("철제 검", "공격력", 4, 700),
@@ -47,7 +47,7 @@ namespace OnlytestTRPG
             new("청동 지팡이", "공격력", 4, 700)
         };
 
-        public void QuestWorking(string questProcess) // 지정된 퀘스트 진행 관리 시스템
+        public static void QuestWorking(string questProcess) // 지정된 퀘스트 진행 관리 시스템
         {
             QuestInfo? activeQuest = Quest.questList.FirstOrDefault(q => q.IsSelected && !q.IsFinished && q.QuestProcess == questProcess);
             if (activeQuest != null)

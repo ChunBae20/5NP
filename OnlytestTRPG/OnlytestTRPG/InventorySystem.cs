@@ -18,7 +18,7 @@ namespace OnlytestTRPG
         public int EquipmentStat;
         public int SellPrice;
         public bool IsEquiped = false;
-        Random random = new Random();
+        Random random = new();
 
         public Equipment(string equipmentName, string equipmentType, int equipmentStat, int sellPrice)
         {

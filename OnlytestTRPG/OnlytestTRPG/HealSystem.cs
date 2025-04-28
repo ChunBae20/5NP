@@ -15,11 +15,6 @@ namespace OnlytestTRPG
             Potion = potion;
         }
 
-        public void AddPotion(int count)
-        {
-            Potion += count;
-        }
-
         public void Heal() // 회복 시스템
         {
             while (true)

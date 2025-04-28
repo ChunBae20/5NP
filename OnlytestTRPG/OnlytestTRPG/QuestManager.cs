@@ -19,7 +19,7 @@ namespace OnlytestTRPG
         public bool IsFinished = false;
         public bool IsSelected = false;
 
-        public QuestInfo(string questName, string questDescription, string questRequest, int questProgress, int questGoal, string[] questReward, string questProcess)
+        public QuestInfo(string questName, string questDescription, string questRequest, int questProgress, int questGoal, string[] questReward, string questProcess) //퀘스트 하나 만들때 빠르게 값을 초기화
         {
             QuestName = questName;
             QuestDescription = questDescription;
@@ -33,7 +33,7 @@ namespace OnlytestTRPG
 
     public class Quest : MainSpace
     {
-        public static List<QuestInfo> questList = new List<QuestInfo>() // 퀘스트 리스트
+        public static List<QuestInfo> questList = new() // 퀘스트 리스트
         {
             new QuestInfo("마을에서 아이템 구매",
                 "이봐! 모험을 떠나는것도 좋지만 아무런 준비 없이 모험을 떠날건 아니지?\r\n마을에는 상점이 있다네, 그러니 상점으로 가서 필요한 장비를 구매해보게!",
@@ -128,7 +128,7 @@ namespace OnlytestTRPG
             Console.WriteLine($"\n- {selectQuest.QuestRequest}  ( {selectQuest.QuestProgress} / {selectQuest.QuestGoal})");
 
             Console.WriteLine("- 보상 -");
-            Console.WriteLine($"\n{string.Join("\n", selectQuest.QuestReward)}");
+            Console.WriteLine($"\n{string.Join("\n", selectQuest.QuestReward)}"); //배열에 각 문자열마다 \n을 넣음
             Console.WriteLine("\n\n1. 보상 받기");
             Console.WriteLine("\n원하시는 행동을 입력해주세요");
 
@@ -140,7 +140,7 @@ namespace OnlytestTRPG
             }
         }
 
-        public void Reward(QuestInfo selectQuest) // 퀘스트 보상 적용 시스템
+        public static void Reward(QuestInfo selectQuest) // 퀘스트 보상 적용 시스템
         {
             Console.WriteLine("보상을 받았습니다!");
 
@@ -148,9 +148,9 @@ namespace OnlytestTRPG
             {
                 if (reward.Contains("G"))
                 {
-                    string numberPart = new string(reward.Where(char.IsDigit).ToArray()); // 숫자만 추출
+                    string numberPart = new string(reward.Where(char.IsDigit).ToArray()); // 각 문자를 숫자인지 확인 후 추출 -> 배열로 만든 후 다시 하나의 문자열로 만듬
                     int goldAmount = int.Parse(numberPart);
-
+                    
                     status.BasicGold += goldAmount; // 수당 지급
                     Console.WriteLine($"+{goldAmount}G (총 보유: {status.BasicGold})");
                     if(selectQuest.IsFinished == true)

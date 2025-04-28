@@ -66,13 +66,13 @@ namespace OnlytestTRPG
         }
 
         //Main.cs에서 각 파일 가져오기 위해 새인스턴스 생성
-        public static Character character = new Character();
-        public static BattleScene battle = new BattleScene();
-        public static Store store = new Store();
-        public static Quest quest = new Quest();
-        public static HealItem healItem = new HealItem(3);
-        public static Inventory inven = new Inventory();
-        public static Status status = new Status();
+        public static Character character = new();
+        public static Status status = new();
+        public static Inventory inven = new();
+        public static HealItem healItem = new(3);
+        public static Quest quest = new();
+        public static Store store = new();
+        public static BattleScene battle = new();
 
 
         public static int Input(int min, int max) // 잘못 입력 시

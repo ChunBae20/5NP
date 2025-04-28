@@ -25,7 +25,7 @@ namespace OnlytestTRPG
             SelectJob();
         }
 
-        public void SelectJob() // 직업 선택
+        public static void SelectJob() // 직업 선택
         {
             Console.Clear();
             Console.WriteLine("\n직업을 선택하세요:");

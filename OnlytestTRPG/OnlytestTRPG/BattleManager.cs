@@ -44,9 +44,20 @@ namespace OnlytestTRPG
 
     public class BattleScene : MainSpace
     {
-        private static Character? player;
+        //private static Character? player;
         private static Item[]? itemDb;
         static Random random = new Random();
+        public static int BeforeHP = status.CurrentHP;
+
+        internal static Enemy[] enemyDb = new Enemy[]
+{
+            new Enemy("독고벌레", 2, 5, 15, 15),
+            new Enemy("바위게", 3, 9, 10, 10),
+            new Enemy("늑대 고블린", 4, 7, 20, 20),
+            new Enemy("칼날구울", 5, 8, 25, 25),
+            new Enemy("핏빛 리자드맨", 8, 8, 30, 30),
+            new Enemy("쌍둥이 골렘", 10, 10, 70, 70)
+};
 
         public void DisplayBattleScene()
         {
@@ -164,15 +175,6 @@ namespace OnlytestTRPG
             }
 
         }
-        internal static Enemy[] enemyDb = new Enemy[]
-        {
-            new Enemy("독고벌레", 2, 5, 15, 15),
-            new Enemy("바위게", 3, 9, 10, 10),
-            new Enemy("늑대 고블린", 4, 7, 20, 20),
-            new Enemy("칼날구울", 5, 8, 25, 25),
-            new Enemy("핏빛 리자드맨", 8, 8, 30, 30),
-            new Enemy("쌍둥이 골렘", 10, 10, 70, 70)
-        };
 
         static List<Enemy> currentEnemies = new List<Enemy>();
         static void EnemyGenerate()
@@ -202,9 +204,6 @@ namespace OnlytestTRPG
             Console.WriteLine();
         }
 
-
-
-
         static int CalculateDamage(int baseAtk, int baseDef, int baseAvd, int baseCrt)
         {
             int errorRange = (int)Math.Ceiling(baseAtk * 0.1);
@@ -233,69 +232,62 @@ namespace OnlytestTRPG
             return finalDamage;
         }
 
+void EnemyAttackPhase()
+{
+    for (int i = 0; i < currentEnemies.Count; i++)//지민 수정 적의 마지막 공격 표시를 위해 foreach 에서 for문으로 수정
+    {
+        var enemy = currentEnemies[i];
+        if (enemy.IsDead) continue;
+        Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격 대기중");
+        Console.WriteLine("0.눌러 진행");
+        int wait = Input(0, 0);
+        Console.Clear();
+        int enemyDamage = CalculateDamage(enemy.Atk, status.BasicSTR + status.NowEquipSTR, status.BasicSTR + status.NowEquipSTR, 0);
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("Battle!");
+        Console.ResetColor();
+        Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
 
+        Console.WriteLine();
+        Console.WriteLine($"{status.Name}를 맞췄습니다. [데미지: {enemyDamage}]");
+        Console.WriteLine($"Lv.{status.Level} {status.Name}");
+        Console.WriteLine($"HP {status.CurrentHP} -> {status.CurrentHP - enemyDamage}");
+        status.CurrentHP -= enemyDamage;
 
-        void EnemyAttackPhase()
+        //♥
+        if (status.CurrentHP <= 0) ////민종곤 damageTaken 삭제
         {
-            for (int i = 0; i < currentEnemies.Count; i++)//지민 수정 적의 마지막 공격 표시를 위해 foreach 에서 for문으로 수정
-            {
-                var enemy = currentEnemies[i];
-                if (enemy.IsDead) continue;
-                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격 대기중");
-                Console.WriteLine("0.눌러 진행");
-                int wait = Input(0, 0);
-                Console.Clear();
-                int enemyDamage = CalculateDamage(enemy.Atk, status.BasicSTR + status.NowEquipSTR, status.BasicSTR + status.NowEquipSTR, 0);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Battle!");
-                Console.ResetColor();
-                Console.WriteLine($"Lv.{enemy.Level} {enemy.Name}의 공격!");
+            var emptyRewards = new List<Reward>();   // 패배는 보상 없음
+            Program.ShowResult(     // ← 민종곤 방금 만든 static 메서드 showResult 부분이랑 연결
+                damageTaken: 0,
+                killCount: 0,
+                rewardList: emptyRewards,
+                result: BattleResult.Defeat);
 
-                Console.WriteLine();
-                Console.WriteLine($"{status.Name}를 맞췄습니다. [데미지: {enemyDamage}]");
-                Console.WriteLine($"Lv.{status.Level} {status.Name}");
-                Console.WriteLine($"HP {status.CurrentHP} -> {status.CurrentHP - enemyDamage}");
-                status.CurrentHP -= enemyDamage;
-
-                //♥
-                if (status.CurrentHP <= 0) ////민종곤 damageTaken 삭제  
-                {
-                    var emptyRewards = new List<Reward>();   // 패배는 보상 없음
-                    Program.ShowResult(     // ← 민종곤 방금 만든 static 메서드 showResult 부분이랑 연결
-                        damageTaken: 0,
-                        killCount: 0,
-                        rewardList: emptyRewards,
-                        result: BattleResult.Defeat);
-
-                    /* ShowResult() 안에서 Environment.Exit(0) 이 호출되므로
-                       아래 return 은 형식상 남겨 둡니다. */
-                    return; // 민종곤 전투 종료 로직 연결
-
-                }
-                if (i == currentEnemies.Count - 1)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("0. 눌러 내 턴으로");
-                    Input(0, 0);
-                    Console.Clear();    //지민 수정 (적의 마지막 공격이 표시되지않음)
-                }
-
-            }
+            /* ShowResult() 안에서 Environment.Exit(0) 이 호출되므로
+               아래 return 은 형식상 남겨 둡니다. */
+            return; // 민종곤 전투 종료 로직 연결
 
         }
+        if (i == currentEnemies.Count - 1)
+        {
+            Console.WriteLine();
+            Console.WriteLine("0. 눌러 내 턴으로");
+            Input(0, 0);
+            Console.Clear();    //지민 수정 (적의 마지막 공격이 표시되지않음)
+        }
 
+    }
 
-        static void BattleCharacterInfo()
+}
+
+        public void BattleCharacterInfo()
         {
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{status.Level} {status.Name}({status.Job})");
-            Console.Write($"HP {status.CurrentHP}/");//아 이거 이거였네 100고정이아니라 걍 
-            Console.WriteLine(status.TotalHP);
+            Console.Write($"HP {status.CurrentHP}/");
+            Console.WriteLine(BeforeHP);
         }
-
-
-
-
     }
 }
 
